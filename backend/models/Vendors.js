@@ -2,11 +2,17 @@ const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
 
 // Create Schema
-const UserSchema = new Schema({
-	name: {
+const VendorSchema = new Schema({
+	manager_name: {
 		type: String,
 		required: true
 	},
+    shop_name: {
+        type: String,
+        unique: true,
+        dropDups: true,
+        required: true
+    },
 	email: {
 		type: String,
 		match: [/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/, 'Please fill a valid email address'],
@@ -20,22 +26,8 @@ const UserSchema = new Schema({
 		max: 9999999999,
 		required: true
 	},
-	age: {
-		type: Number,
-		min: 10,
-		required: true
-	},
-	batch: {
-		type: String,
-		enum: ['UG1', 'UG2', 'UG3', 'UG4', 'UG5'],
-		required: true
-	},
-	wallet_balance: {
-		type: Number,
-		min: 0,
-		required: true
-	}
+	
 
 });
 
-module.exports = User = mongoose.model("Users", UserSchema);
+module.exports = Vendor = mongoose.model("Vendors", VendorSchema);

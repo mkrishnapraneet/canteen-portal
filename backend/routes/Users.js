@@ -24,7 +24,10 @@ router.post("/register", (req, res) => {
     const newUser = new User({
         name: req.body.name,
         email: req.body.email,
-        date: req.body.date
+        contact_number: req.body.contact_number,
+        age: req.body.age,
+        batch: req.body.batch,
+        wallet_balance: req.body.wallet_balance
     });
 
     newUser.save()
@@ -53,6 +56,12 @@ router.post("/login", (req, res) => {
             return user;
         }
 	});
+});
+
+router.delete("/:id", (req, res) => {
+    User.findById(req.params.id)
+    .then(item => item.remove().then(() => res.json({success:true})))
+    .catch(err => res.status(404).json({success: false}));
 });
 
 module.exports = router;
