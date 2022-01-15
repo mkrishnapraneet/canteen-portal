@@ -26,6 +26,18 @@ const VendorSchema = new Schema({
 		max: 9999999999,
 		required: true
 	},
+	opening_time: {
+		type: Number,
+		min: 0,
+		max: 2359,
+		required: true
+	},
+	closing_time: {
+		type: Number,
+		min: 0,
+		max: 2359,
+		required: true
+	}
 
 
 });
