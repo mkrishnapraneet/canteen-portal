@@ -7,12 +7,12 @@ const VendorSchema = new Schema({
 		type: String,
 		required: true
 	},
-    shop_name: {
-        type: String,
-        unique: true,
-        dropDups: true,
-        required: true
-    },
+	shop_name: {
+		type: String,
+		unique: true,
+		dropDups: true,
+		required: true
+	},
 	email: {
 		type: String,
 		match: [/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/, 'Please fill a valid email address'],
@@ -26,7 +26,7 @@ const VendorSchema = new Schema({
 		max: 9999999999,
 		required: true
 	},
-	
+
 
 });
 
