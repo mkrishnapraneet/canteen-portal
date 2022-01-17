@@ -13,18 +13,28 @@ import Typography from '../node_modules/@mui/material/Typography';
 import Container from '../node_modules/@mui/material/Container';
 import { createTheme, ThemeProvider } from '../node_modules/@mui/material/styles';
 
-function Copyright(props) {
-    return (
-        <Typography variant="body2" color="text.secondary" align="center" {...props}>
-            {'Copyright © '}
-            <Link color="inherit" href="https://mui.com/">
-                Your Website
-            </Link>{' '}
-            {new Date().getFullYear()}
-            {'.'}
-        </Typography>
-    );
-}
+import {
+    BrowserRouter,
+    Switch,
+    Route,
+    Redirect,
+} from "react-router-dom";
+
+import NavBar from './components/Navbar';
+import SignIn from './SignIn';
+
+// function Copyright(props) {
+//     return (
+//         <Typography variant="body2" color="text.secondary" align="center" {...props}>
+//             {'Copyright © '}
+//             <Link color="inherit" href="https://mui.com/">
+//                 Your Website
+//             </Link>{' '}
+//             {new Date().getFullYear()}
+//             {'.'}
+//         </Typography>
+//     );
+// }
 
 const theme = createTheme();
 
@@ -101,12 +111,12 @@ export default function SignUp() {
                                     autoComplete="new-password"
                                 />
                             </Grid>
-                            <Grid item xs={12}>
+                            {/* <Grid item xs={12}>
                                 <FormControlLabel
                                     control={<Checkbox value="allowExtraEmails" color="primary" />}
                                     label="I want to receive inspiration, marketing promotions and updates via email."
                                 />
-                            </Grid>
+                            </Grid> */}
                         </Grid>
                         <Button
                             type="submit"
@@ -118,14 +128,14 @@ export default function SignUp() {
                         </Button>
                         <Grid container justifyContent="flex-end">
                             <Grid item>
-                                <Link href="#" variant="body2">
+                                <Link href="/signin" variant="body2">
                                     Already have an account? Sign in
                                 </Link>
                             </Grid>
                         </Grid>
                     </Box>
                 </Box>
-                <Copyright sx={{ mt: 5 }} />
+                {/* <Copyright sx={{ mt: 5 }} /> */}
             </Container>
         </ThemeProvider>
     );
