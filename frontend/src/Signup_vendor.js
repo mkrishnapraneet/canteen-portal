@@ -3,8 +3,8 @@ import Avatar from '@mui/material/Avatar';
 import Button from '@mui/material/Button';
 import CssBaseline from '@mui/material/CssBaseline';
 import TextField from '@mui/material/TextField';
-import FormControlLabel from '@mui/material/FormControlLabel';
-import Checkbox from '@mui/material/Checkbox';
+// import FormControlLabel from '@mui/material/FormControlLabel';
+// import Checkbox from '@mui/material/Checkbox';
 import Link from '@mui/material/Link';
 import Grid from '@mui/material/Grid';
 import Box from '@mui/material/Box';
@@ -24,6 +24,9 @@ import { createTheme, ThemeProvider } from '@mui/material/styles';
 // import SignIn from './SignIn_user';
 import ResponsiveAppBar from './components/Navbar';
 import BasicMenu from './components/Menu';
+import ValidEmail from './components/valid_email';
+import MuiPhoneNumber from 'material-ui-phone-number';
+// import BasicTimePicker from './components/timepicker';
 
 // function Copyright(props) {
 //     return (
@@ -60,7 +63,7 @@ export default function SignUpVendor() {
             <br></br>
             <br></br>
             <div align="center">
-                <BasicMenu />
+                <BasicMenu type="Vendor" />
             </div>
             <ThemeProvider theme={theme}>
                 <Container component="main" maxWidth="xs">
@@ -103,14 +106,7 @@ export default function SignUpVendor() {
                                     />
                                 </Grid>
                                 <Grid item xs={12}>
-                                    <TextField
-                                        required
-                                        fullWidth
-                                        id="email"
-                                        label="Email Address"
-                                        name="email"
-                                        autoComplete="email"
-                                    />
+                                    <ValidEmail />
                                 </Grid>
                                 <Grid item xs={12}>
                                     <TextField
@@ -123,12 +119,103 @@ export default function SignUpVendor() {
                                         autoComplete="new-password"
                                     />
                                 </Grid>
+                                <Grid item xs={12} >
+                                    <TextField
+                                        autoComplete="shop-name"
+                                        name="shopName"
+                                        required
+                                        fullWidth
+                                        id="shopName"
+                                        label="Shop Name"
+
+                                    />
+                                </Grid>
                                 <Grid item xs={12}>
+                                    <MuiPhoneNumber required defaultCountry={'in'} autoComplete='phone-number' />
+                                </Grid>
+                                <Grid item xs={12}>
+                                <Typography component="h1" variant="h5">
+                                    Opening Time
+                                </Typography>
+                                </Grid>
+                                <Grid item xs={12} sm={6}>
+                                    <TextField
+                                        required
+                                        fullWidth
+                                        name="opening_time_hours"
+                                        label="Opening Time Hours"
+                                        type="number"
+                                        id="opening_time_hours"
+                                        autoComplete="hours"
+                                        onChange={(event) =>
+                                            (event.target.value < 0 || event.target.value > 23)
+                                                ? (event.target.value = 0)
+                                                : event.target.value
+                                        }
+                                    />
+                                </Grid>
+                                <Grid item xs={12} sm={6}>
+                                    <TextField
+                                        required
+                                        fullWidth
+                                        name="opening_time_minutes"
+                                        label="Opening Time Minutes"
+                                        type="number"
+                                        id="opening_time_minutes"
+                                        autoComplete="minutes"
+                                        onChange={(event) =>
+                                            (event.target.value < 0 || event.target.value > 59)
+                                                ? (event.target.value = 0)
+                                                : event.target.value
+                                        }
+                                    />
+                                </Grid>
+                                <Grid item xs={12}>
+                                <Typography component="h1" variant="h5">
+                                    Closing Time
+                                </Typography>
+                                </Grid>
+                                <Grid item xs={12} sm={6}>
+                                    <TextField
+                                        required
+                                        fullWidth
+                                        name="closing_time_hours"
+                                        label="Closing Time Hours"
+                                        type="number"
+                                        id="closing_time_hours"
+                                        autoComplete="hours"
+                                        onChange={(event) =>
+                                            (event.target.value < 0 || event.target.value > 23)
+                                                ? (event.target.value = 0)
+                                                : event.target.value
+                                        }
+                                    />
+                                </Grid>
+                                <Grid item xs={12} sm={6}>
+                                    <TextField
+                                        required
+                                        fullWidth
+                                        name="closing_time_minutes"
+                                        label="Closing Time Minutes"
+                                        type="number"
+                                        id="closing_time_minutes"
+                                        autoComplete="minutes"
+                                        onChange={(event) =>
+                                            (event.target.value < 0 || event.target.value > 59)
+                                                ? (event.target.value = 0)
+                                                : event.target.value
+                                        }
+                                    />
+                                </Grid>
+                                {/* <Grid item xs={12}>
+                                    <BasicTimePicker />
+                                </Grid> */}
+                                {/* <Grid item xs={12}>
                                     <FormControlLabel
                                         control={<Checkbox value="allowExtraEmails" color="primary" />}
                                         label="I want to receive inspiration, marketing promotions and updates via email."
                                     />
-                                </Grid>
+                                </Grid> */}
                             </Grid>
                             <Button
                                 type="submit"

@@ -12,6 +12,8 @@ import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
+import MuiPhoneNumber from 'material-ui-phone-number';
+
 
 // import {
 //     BrowserRouter,
@@ -24,6 +26,8 @@ import { createTheme, ThemeProvider } from '@mui/material/styles';
 // import SignIn from './SignIn_user';
 import ResponsiveAppBar from './components/Navbar';
 import BasicMenu from './components/Menu';
+import ValidEmail from './components/valid_email';
+import UGMenu from './components/ug_menu';
 
 // function Copyright(props) {
 //     return (
@@ -60,7 +64,7 @@ export default function SignUpUser() {
             <br></br>
             <br></br>
             <div align="center">
-                <BasicMenu />
+                <BasicMenu type="Buyer" />
             </div>
             <ThemeProvider theme={theme}>
                 <Container component="main" maxWidth="xs">
@@ -103,14 +107,16 @@ export default function SignUpUser() {
                                     />
                                 </Grid>
                                 <Grid item xs={12}>
-                                    <TextField
+                                    <ValidEmail />
+                                    {/* <TextField
                                         required
                                         fullWidth
                                         id="email"
                                         label="Email Address"
                                         name="email"
+                                        type="email"
                                         autoComplete="email"
-                                    />
+                                    /> */}
                                 </Grid>
                                 <Grid item xs={12}>
                                     <TextField
@@ -122,6 +128,36 @@ export default function SignUpUser() {
                                         id="password"
                                         autoComplete="new-password"
                                     />
+                                </Grid>
+                                <Grid item xs={12}>
+                                    <MuiPhoneNumber required defaultCountry={'in'} autoComplete='phone-number' />
+                                </Grid>
+                                <Grid item xs={12} sm={6}>
+                                    <TextField
+                                        required
+                                        fullWidth
+                                        name="age"
+                                        label="Age"
+                                        type="number"
+                                        id="age"
+                                        autoComplete="age"
+                                        onChange={(event) =>
+                                            event.target.value < 0
+                                                ? (event.target.value = 0)
+                                                : event.target.value
+                                        }
+                                    />
+                                </Grid>
+                                <Grid item xs={12} sm={6}>
+                                    <UGMenu />
+                                    {/* <TextField
+                                        required
+                                        fullWidth
+                                        name="batch"
+                                        label="Batch"
+                                        id="batch"
+                                        autoComplete="batch"
+                                    /> */}
                                 </Grid>
                                 {/* <Grid item xs={12}>
                                 <FormControlLabel
@@ -150,6 +186,8 @@ export default function SignUpUser() {
                     {/* <Copyright sx={{ mt: 5 }} /> */}
                 </Container>
             </ThemeProvider>
+
+
         </div>
     );
 }

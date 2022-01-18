@@ -14,21 +14,18 @@ import { useNavigate } from "react-router-dom";
 //   useNavigationType
 // } from "react-router-dom";
 
-export default function BasicMenu() {
-  const [user_type, setUser] = React.useState('');
+export default function BasicMenu(props) {
+  // const [user_type, setUser] = React.useState('');
   const navigate = useNavigate();
 
   const handleChange = (event) => {
-    setUser(event.target.value);
+    // setUser(event.target.value);
     if (event.target.value === "Buyer") {
       navigate("/signup/user");
     }
     else if (event.target.value === "Vendor") {
       navigate("/signup/vendor");
     }
-    // this.props.history.push('/signup')
-
-
   };
 
   return (
@@ -38,7 +35,7 @@ export default function BasicMenu() {
         <Select
           labelId="demo-simple-select-label"
           id="demo-simple-select"
-          value={user_type}
+          value={props.type}
           label="User Type"
           onChange={handleChange}
         >

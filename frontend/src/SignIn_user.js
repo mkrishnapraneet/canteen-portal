@@ -50,7 +50,7 @@ export default function SignInUser() {
       <br></br>
       <br></br>
       <div align="center">
-        <BasicMenu />
+        <BasicMenu type="Buyer" />
       </div>
       <ThemeProvider theme={theme}>
         <Container component="main" maxWidth="xs">

@@ -50,7 +50,7 @@ export default function SignInVendor() {
             <br></br>
             <br></br>
             <div align="center">
-                <BasicMenu />
+                <BasicMenu type="Vendor" />
             </div>
             <ThemeProvider theme={theme}>
                 <Container component="main" maxWidth="xs">

@@ -22,7 +22,8 @@ router.get("/", function (req, res) {
 // Add a user to db
 router.post("/register", (req, res) => {
     const newUser = new User({
-        name: req.body.name,
+        fname: req.body.fname,
+        lname: req.body.lname,
         email: req.body.email,
         contact_number: req.body.contact_number,
         age: req.body.age,

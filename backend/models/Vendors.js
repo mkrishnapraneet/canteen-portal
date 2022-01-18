@@ -3,7 +3,11 @@ const Schema = mongoose.Schema;
 
 // Create Schema
 const VendorSchema = new Schema({
-	manager_name: {
+	manager_fname: {
+		type: String,
+		required: true
+	},
+	manager_lname: {
 		type: String,
 		required: true
 	},

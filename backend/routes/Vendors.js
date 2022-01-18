@@ -19,7 +19,8 @@ router.get("/", function (req, res) {
 // Add a vendor to db
 router.post("/register", (req, res) => {
     const newVendor = new Vendor({
-        manager_name: req.body.manager_name,
+        manager_fname: req.body.manager_fname,
+        manager_lname: req.body.manager_lname,
         shop_name: req.body.shop_name,
         email: req.body.email,
         contact_number: req.body.contact_number,
