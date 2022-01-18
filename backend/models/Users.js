@@ -33,7 +33,7 @@ const UserSchema = new Schema({
 	wallet_balance: {
 		type: Number,
 		min: 0,
-		required: true
+		required: false
 	}
 
 });

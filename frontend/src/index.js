@@ -2,8 +2,8 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
-import SignUp from './Signup';
-import SignIn from './SignIn';
+// import SignUpUser from './Signup_user';
+// import SignInUser from './SignIn_user';
 
 ReactDOM.render(
   <React.StrictMode>
