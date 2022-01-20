@@ -48,10 +48,10 @@ class App extends Component {
         <BrowserRouter>
           <Routes>
             <Route exact path="/" element={<Layout />} />
-            <Route exact path="/signup/user" element={<SignUpUser />} />
-            <Route exact path="/signup/vendor" element={<SignUpVendor />} />
-            <Route exact path="/signin/user" element={<SignInUser />} />
-            <Route exact path="/signin/vendor" element={<SignInVendor />} />
+            <Route exact path="/signup_user" element={<SignUpUser />} />
+            <Route exact path="/signup_vendor" element={<SignUpVendor />} />
+            <Route exact path="/signin_user" element={<SignInUser />} />
+            <Route exact path="/signin_vendor" element={<SignInVendor />} />
 
           </Routes>
         </BrowserRouter>

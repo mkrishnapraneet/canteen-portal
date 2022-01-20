@@ -20,12 +20,6 @@ export default function UGMenu() {
 
   const handleChange = (event) => {
     setBatch(event.target.value);
-    // if (event.target.value === "Buyer") {
-    //   navigate("/signup/user");
-    // }
-    // else if (event.target.value === "Vendor") {
-    //   navigate("/signup/vendor");
-    // }
   };
 
   return (

@@ -21,10 +21,10 @@ export default function BasicMenu(props) {
   const handleChange = (event) => {
     // setUser(event.target.value);
     if (event.target.value === "Buyer") {
-      navigate("/signup/user");
+      navigate("/signup_user");
     }
     else if (event.target.value === "Vendor") {
-      navigate("/signup/vendor");
+      navigate("/signup_vendor");
     }
   };
 

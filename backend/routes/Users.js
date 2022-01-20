@@ -21,6 +21,7 @@ router.get("/", function (req, res) {
 // POST request 
 // Add a user to db
 router.post("/register", (req, res) => {
+    console.log(req.body)
     const newUser = new User({
         fname: req.body.fname,
         lname: req.body.lname,
@@ -34,10 +35,12 @@ router.post("/register", (req, res) => {
     newUser.save()
         .then(user => {
             res.status(200).json(user);
+            // res.send("Sign up successful");
         })
         .catch(err => {
             res.status(400).send(err);
         });
+    
 });
 
 // POST request 
