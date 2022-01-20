@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 // import * as React from 'react';
 // import 'bootstrap/dist/css/bootstrap.min.css';
-import ResponsiveAppBar from './components/Navbar'
+// import ResponsiveAppBar from './components/Navbar'
 import SignInUser from './SignIn_user'
 import SignUpUser from './Signup_user'
 import BasicMenu from './components/Menu'
@@ -26,7 +26,7 @@ const Layout = () => {
     <div>
 
       <div>
-        <ResponsiveAppBar />
+        {/* <ResponsiveAppBar /> */}
       </div>
       <br></br>
       <br></br>

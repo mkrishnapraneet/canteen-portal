@@ -18,6 +18,10 @@ const UserSchema = new Schema({
 		dropDups: true,
 		required: true
 	},
+	password: {
+		type: String,
+		required: true
+	},
 	contact_number: {
 		type: Number,
 		min: 1000000000,

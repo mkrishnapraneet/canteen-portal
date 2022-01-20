@@ -35,9 +35,9 @@ import { useNavigate } from "react-router-dom";
 
 // import NavBar from './components/Navbar';
 // import SignIn from './SignIn_user';
-import ResponsiveAppBar from './components/Navbar';
+// import ResponsiveAppBar from './components/Navbar';
 import BasicMenu from './components/Menu';
-import MessagePopup from './components/Popup';
+// import MessagePopup from './components/Popup';
 // import ValidEmail from './components/valid_email';
 // import UGMenu from './components/ug_menu';
 
@@ -64,9 +64,9 @@ export default function SignUpUser() {
     const [password, setPassword] = React.useState('');
     const [age, setAge] = React.useState(18);
     const [user_batch, setBatch] = React.useState('UG1');
-    const [emailError, setEmailError] = React.useState('')
-    const [contact_number, setContactNumber] = React.useState('')
-    const [phError, setPhoneError] = React.useState('')
+    const [emailError, setEmailError] = React.useState('');
+    const [contact_number, setContactNumber] = React.useState('');
+    const [phError, setPhoneError] = React.useState('');
 
     const navigate = useNavigate();
     // const [wallet_balance, setWallet] = React.useState(0)
@@ -114,13 +114,16 @@ export default function SignUpUser() {
             .then((res) =>
             // <MessagePopup open={true} severity="success" message="Signed Up successfully" /> 
             {
+                alert("Sign Up Successful. You will now be directed to the login page.")
                 navigate("/signin_user");
                 // callPopUp();
             }
             )
             .catch((err) => {
                 navigate("/signup_user");
-                alert("Sign Up Unsuccessful");
+                if (err.response.status === 400) {
+                    alert("Sign Up Unsuccessful. Please check the values provided and also make sure you're not already signed up");
+                }
                 // callPopUp();
             }
                 // <MessagePopup open={true} severity="error" message="Sign Up unsuccessful" /> 
@@ -131,7 +134,7 @@ export default function SignUpUser() {
     return (
         <div>
             <div>
-                <ResponsiveAppBar />
+                {/* <ResponsiveAppBar /> */}
             </div>
             <br></br>
             <br></br>
@@ -157,7 +160,7 @@ export default function SignUpUser() {
                             Sign up
                         </Typography>
                         {/* <MessagePopup /> */}
-                        <Box component="form" noValidate sx={{ mt: 3 }}>
+                        <Box component="form" sx={{ mt: 3 }}>
                             <Grid container spacing={2}>
                                 <Grid item xs={12} sm={6}>
                                     <TextField
@@ -334,6 +337,9 @@ export default function SignUpUser() {
                 </Container>
                 {/* <MessagePopup /> */}
             </ThemeProvider>
+            <br></br>
+            <br></br>
+            <br></br>
 
 
         </div>

@@ -11,6 +11,8 @@ const DB_NAME = "test"
 var UserRouter = require("./routes/Users");
 var VendorRouter = require("./routes/Vendors");
 var ItemRouter = require("./routes/Items");
+var UserAuth = require("./routes/user_auth");
+var VendorAuth = require("./routes/vendor_auth");
 
 app.use(cors());
 app.use(bodyParser.json());
@@ -30,5 +32,7 @@ const port = process.env.PORT || 4000;
 app.use("/user", UserRouter);
 app.use("/vendor", VendorRouter);
 app.use("/item", ItemRouter);
+app.use("/user_auth", UserAuth);
+app.use("/vendor_auth", VendorAuth);
 
 app.listen(port, () => console.log(`Server is running on Port: ${port}`));
