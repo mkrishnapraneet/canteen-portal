@@ -21,11 +21,6 @@ import FormControl from '@mui/material/FormControl';
 import Select from '@mui/material/Select';
 import validator from 'validator';
 import { useNavigate } from "react-router-dom";
-
-
-
-
-
 // import {
 //     BrowserRouter,
 //     Switch,
@@ -37,23 +32,6 @@ import { useNavigate } from "react-router-dom";
 // import SignIn from './SignIn_user';
 // import ResponsiveAppBar from './components/Navbar';
 import BasicMenu from './components/Menu';
-// import MessagePopup from './components/Popup';
-// import ValidEmail from './components/valid_email';
-// import UGMenu from './components/ug_menu';
-
-// function Copyright(props) {
-//     return (
-//         <Typography variant="body2" color="text.secondary" align="center" {...props}>
-//             {'Copyright © '}
-//             <Link color="inherit" href="https://mui.com/">
-//                 Your Website
-//             </Link>{' '}
-//             {new Date().getFullYear()}
-//             {'.'}
-//         </Typography>
-//     );
-// }
-
 const theme = createTheme();
 const backend_base_url = "http://localhost:4000";
 
