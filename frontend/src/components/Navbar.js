@@ -30,12 +30,14 @@ import Avatar from '@mui/material/Avatar';
 import Button from '@mui/material/Button';
 import Tooltip from '@mui/material/Tooltip';
 import MenuItem from '@mui/material/MenuItem';
-import img from "./download.png"
+import img from "./download.png";
+import { useNavigate } from "react-router-dom";
 
-const pages = ['Buyer', 'Vendor'];
-const settings = ['Profile', 'Account', 'Dashboard', 'Logout'];
+const pages = ['Dashboard'];
+const settings = [ 'Logout'];
 
 const ResponsiveAppBar = () => {
+    const navigate = useNavigate();
     const [anchorElNav, setAnchorElNav] = React.useState(null);
     const [anchorElUser, setAnchorElUser] = React.useState(null);
 
@@ -47,7 +49,12 @@ const ResponsiveAppBar = () => {
     };
 
     const handleCloseNavMenu = () => {
-        setAnchorElNav(null);
+        // setAnchorElNav(event.target.value);
+        // if (anchorElNav === "Logout") {
+            localStorage.removeItem("token");
+            navigate("/signin_user");
+            alert("Logged out succesfully");
+        // }
     };
 
     const handleCloseUserMenu = () => {

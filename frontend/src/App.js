@@ -20,6 +20,7 @@ import {
 } from "react-router-dom";
 import SignUpVendor from './Signup_vendor'
 import SignInVendor from './SignIn_vendor'
+import UserDashboard from './User';
 
 const Layout = () => {
   return (
@@ -52,6 +53,7 @@ class App extends Component {
             <Route exact path="/signup_vendor" element={<SignUpVendor />} />
             <Route exact path="/signin_user" element={<SignInUser />} />
             <Route exact path="/signin_vendor" element={<SignInVendor />} />
+            <Route exact path="/user_dashboard" element={<UserDashboard />} />
 
           </Routes>
         </BrowserRouter>

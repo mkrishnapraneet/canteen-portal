@@ -52,15 +52,21 @@ export default function SignInUser() {
       .then((res) =>
       // <MessagePopup open={true} severity="success" message="Signed Up successfully" /> 
       {
-        alert("Sign In Successful.")
-        // navigate("/signin_user");
+        alert("Sign In Successful.");
+        // console.log(res.data.token);
+        // console.log(res.data.user.email);
+        localStorage.setItem("token", res.data.token);
+        console.log(localStorage.getItem("token"));
+        // localStorage.
+        navigate("/user_dashboard");
         // callPopUp();
       }
       )
       .catch((err) => {
         // navigate("/signup_user");
         // if (err.response.status === 400) {
-          alert("Sign In Unsuccessful. Please check the values provided.");
+        localStorage.removeItem("token");
+        alert("Sign In Unsuccessful. Please check the values provided.");
         // }
         // callPopUp();
       }
