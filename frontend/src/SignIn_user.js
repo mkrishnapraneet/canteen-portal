@@ -55,9 +55,9 @@ export default function SignInUser() {
         alert("Sign In Successful.");
         // console.log(res.data.token);
         // console.log(res.data.user.email);
-        localStorage.setItem("token", res.data.token);
-        console.log(localStorage.getItem("token"));
-        // localStorage.
+        sessionStorage.setItem("token", res.data.token);
+        console.log(sessionStorage.getItem("token"));
+        // sessionStorage.
         navigate("/user_dashboard");
         // callPopUp();
       }
@@ -65,7 +65,7 @@ export default function SignInUser() {
       .catch((err) => {
         // navigate("/signup_user");
         // if (err.response.status === 400) {
-        localStorage.removeItem("token");
+        sessionStorage.removeItem("token");
         alert("Sign In Unsuccessful. Please check the values provided.");
         // }
         // callPopUp();

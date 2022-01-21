@@ -20,59 +20,60 @@ import validator from 'validator';
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import { useEffect } from 'react';
-import ButtonAppBar from './components/user_nav';
+// import ButtonAppBar from './components/user_nav';
+import ButtonAppBarVendor from './components/vendor_nav';
 
 const theme = createTheme();
 const backend_base_url = "http://localhost:4000";
 
-export default function UserDashboard() {
+export default function VendorDashboard() {
     const navigate = useNavigate();
 
-    const [wallet_balance, setWalletBalance] = React.useState(0);
+    // const [wallet_balance, setWalletBalance] = React.useState(0);
 
-    const fetchBalance = (event) => {
-        const token = sessionStorage.getItem("token");
-        axios
-            .get(`${backend_base_url}/user/userdetails`, { headers: { "auth-token": token } })
-            .then(res => {
-                setWalletBalance(res.data.wallet_balance);
-                // console.log(res.data);
-                // console.log({wallet_balance});
-            })
-            .catch(err => {
-                alert("Unauthorised access. Session timed out");
-                navigate("/signin_user");
-            })
-    }
+    // const fetchBalance = (event) => {
+    //     const token = sessionStorage.getItem("token");
+    //     axios
+    //         .get(`${backend_base_url}/user/userdetails`, { headers: { "auth-token": token } })
+    //         .then(res => {
+    //             setWalletBalance(res.data.wallet_balance);
+    //             // console.log(res.data);
+    //             // console.log({wallet_balance});
+    //         })
+    //         .catch(err => {
+    //             alert("Unauthorised access. Session timed out");
+    //             navigate("/signin_user");
+    //         })
+    // }
 
-    const handleWallet = (event) => {
-        let amount = prompt("Please enter the amount you want to add to your wallet:");
-        if (amount === null || amount === "") {
-            amount = 0;
-        }
-        amount = amount * 1;
-        const token = sessionStorage.getItem("token");
-        axios
-            .post(`${backend_base_url}/user/addmoney`, {
-                money_to_add: amount
-            }, { headers: { "auth-token": token } })
-            .then(res => {
-                alert("Balance Update Authorised");
-                fetchBalance();
-            })
-            .catch(err => {
-                alert(err + ". Session Timed out");
-                navigate("/signin_user");
+    // const handleWallet = (event) => {
+    //     let amount = prompt("Please enter the amount you want to add to your wallet:");
+    //     if (amount === null || amount === "") {
+    //         amount = 0;
+    //     }
+    //     amount = amount * 1;
+    //     const token = sessionStorage.getItem("token");
+    //     axios
+    //         .post(`${backend_base_url}/user/addmoney`, {
+    //             money_to_add: amount
+    //         }, { headers: { "auth-token": token } })
+    //         .then(res => {
+    //             alert("Balance Update Authorised");
+    //             fetchBalance();
+    //         })
+    //         .catch(err => {
+    //             alert(err + ". Session Timed out");
+    //             navigate("/signin_user");
 
-            })
+    //         })
 
-    }
+    // }
 
     const checkPage = (event) => {
         if (!(sessionStorage.getItem("token"))) {
-            navigate("/signin_user");
+            navigate("/signin_vendor");
         }
-        fetchBalance();
+        // fetchBalance();
     }
     useEffect(() => {
         let ignore = false;
@@ -92,7 +93,7 @@ export default function UserDashboard() {
 
                 {/* {checkPage} */}
 
-                <ButtonAppBar />
+                <ButtonAppBarVendor />
 
                 <br></br>
                 <br></br>
@@ -100,7 +101,7 @@ export default function UserDashboard() {
             </Container>
 
 
-            <Container style={{
+            {/* <Container style={{
                 display: 'flex',
                 flexDirection: 'column',
                 // alignContent: 'flex-end',
@@ -125,7 +126,7 @@ export default function UserDashboard() {
                     Add Money to Wallet
                 </Button>
 
-            </Container >
+            </Container > */}
 
 
             {/* <div align="center">

@@ -34,7 +34,7 @@ import img from "./download.png";
 import { useNavigate } from "react-router-dom";
 
 const pages = ['Dashboard'];
-const settings = [ 'Logout'];
+const settings = [ 'Logout', 'Edit Profile'];
 
 const ResponsiveAppBar = () => {
     const navigate = useNavigate();
@@ -48,13 +48,14 @@ const ResponsiveAppBar = () => {
         setAnchorElUser(event.currentTarget);
     };
 
-    const handleCloseNavMenu = () => {
-        // setAnchorElNav(event.target.value);
-        // if (anchorElNav === "Logout") {
-            localStorage.removeItem("token");
+    const handleCloseNavMenu = (event) => {
+        setAnchorElNav(event.currentTarget);
+        console.log(event.currentTarget.value);
+        if (anchorElNav === "Logout") {
+            sessionStorage.removeItem("token");
             navigate("/signin_user");
             alert("Logged out succesfully");
-        // }
+        }
     };
 
     const handleCloseUserMenu = () => {

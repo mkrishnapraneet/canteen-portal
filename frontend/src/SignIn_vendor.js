@@ -51,6 +51,9 @@ export default function SignInVendor() {
             // <MessagePopup open={true} severity="success" message="Signed Up successfully" /> 
             {
                 alert("Sign In Successful.");
+                sessionStorage.setItem("token", res.data.token);
+                console.log(sessionStorage.getItem("token"));
+                navigate("/vendor_dashboard");
                 // navigate("/signin_user");
                 // callPopUp();
             }
@@ -58,6 +61,7 @@ export default function SignInVendor() {
             .catch((err) => {
                 // navigate("/signup_user");
                 // if (err.response.status === 400) {
+                sessionStorage.removeItem("token");
                 alert("Sign In Unsuccessful. Please check the values provided.");
                 // }
                 // callPopUp();

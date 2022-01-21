@@ -21,6 +21,9 @@ import {
 import SignUpVendor from './Signup_vendor'
 import SignInVendor from './SignIn_vendor'
 import UserDashboard from './User';
+import UserEditProfile from './user_ep';
+import VendorDashboard from './Vendor';
+import VendorEditProfile from './vendor_ep';
 
 const Layout = () => {
   return (
@@ -54,6 +57,9 @@ class App extends Component {
             <Route exact path="/signin_user" element={<SignInUser />} />
             <Route exact path="/signin_vendor" element={<SignInVendor />} />
             <Route exact path="/user_dashboard" element={<UserDashboard />} />
+            <Route exact path="/vendor_dashboard" element={<VendorDashboard />} />
+            <Route exact path="/user_editprofile" element={<UserEditProfile />} />
+            <Route exact path="/vendor_editprofile" element={<VendorEditProfile />} />
 
           </Routes>
         </BrowserRouter>
