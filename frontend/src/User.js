@@ -21,6 +21,8 @@ import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import { useEffect } from 'react';
 import ButtonAppBar from './components/user_nav';
+import FormDialog from './components/wallet_dialog';
+import WalletFormDialog from './components/wallet_dialog';
 
 const theme = createTheme();
 const backend_base_url = "http://localhost:4000";
@@ -45,28 +47,28 @@ export default function UserDashboard() {
             })
     }
 
-    const handleWallet = (event) => {
-        let amount = prompt("Please enter the amount you want to add to your wallet:");
-        if (amount === null || amount === "") {
-            amount = 0;
-        }
-        amount = amount * 1;
-        const token = sessionStorage.getItem("token");
-        axios
-            .post(`${backend_base_url}/user/addmoney`, {
-                money_to_add: amount
-            }, { headers: { "auth-token": token } })
-            .then(res => {
-                alert("Balance Update Authorised");
-                fetchBalance();
-            })
-            .catch(err => {
-                alert(err + ". Session Timed out");
-                navigate("/signin_user");
+    // const handleWallet = (event) => {
+    //     let amount = prompt("Please enter the amount you want to add to your wallet:");
+    //     if (amount === null || amount === "") {
+    //         amount = 0;
+    //     }
+    //     amount = amount * 1;
+    //     const token = sessionStorage.getItem("token");
+    //     axios
+    //         .post(`${backend_base_url}/user/addmoney`, {
+    //             money_to_add: amount
+    //         }, { headers: { "auth-token": token } })
+    //         .then(res => {
+    //             alert("Balance Update Authorised");
+    //             fetchBalance();
+    //         })
+    //         .catch(err => {
+    //             alert(err + ". Session Timed out");
+    //             navigate("/signin_user");
 
-            })
+    //         })
 
-    }
+    // }
 
     const checkPage = (event) => {
         if (!(sessionStorage.getItem("token"))) {
@@ -114,7 +116,7 @@ export default function UserDashboard() {
                     }}>
                     Wallet Balance : Rs. {wallet_balance}
                 </Typography>
-                <Button
+                {/* <Button
                     // fullWidth
                     variant="contained"
                     style={{
@@ -123,7 +125,19 @@ export default function UserDashboard() {
                     }}
                     onClick={handleWallet}>
                     Add Money to Wallet
-                </Button>
+                </Button> */}
+
+                <Box
+                    component="h1"
+                    variant="h6"
+                    style={{
+                        flex: 1
+                    }}
+                >
+                    <WalletFormDialog
+                        func={fetchBalance}
+                    />
+                </Box>
 
             </Container >
 

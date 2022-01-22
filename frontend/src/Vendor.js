@@ -22,52 +22,14 @@ import { useNavigate } from "react-router-dom";
 import { useEffect } from 'react';
 // import ButtonAppBar from './components/user_nav';
 import ButtonAppBarVendor from './components/vendor_nav';
+import ChipInput from 'material-ui-chip-input'
+
 
 const theme = createTheme();
 const backend_base_url = "http://localhost:4000";
 
 export default function VendorDashboard() {
     const navigate = useNavigate();
-
-    // const [wallet_balance, setWalletBalance] = React.useState(0);
-
-    // const fetchBalance = (event) => {
-    //     const token = sessionStorage.getItem("token");
-    //     axios
-    //         .get(`${backend_base_url}/user/userdetails`, { headers: { "auth-token": token } })
-    //         .then(res => {
-    //             setWalletBalance(res.data.wallet_balance);
-    //             // console.log(res.data);
-    //             // console.log({wallet_balance});
-    //         })
-    //         .catch(err => {
-    //             alert("Unauthorised access. Session timed out");
-    //             navigate("/signin_user");
-    //         })
-    // }
-
-    // const handleWallet = (event) => {
-    //     let amount = prompt("Please enter the amount you want to add to your wallet:");
-    //     if (amount === null || amount === "") {
-    //         amount = 0;
-    //     }
-    //     amount = amount * 1;
-    //     const token = sessionStorage.getItem("token");
-    //     axios
-    //         .post(`${backend_base_url}/user/addmoney`, {
-    //             money_to_add: amount
-    //         }, { headers: { "auth-token": token } })
-    //         .then(res => {
-    //             alert("Balance Update Authorised");
-    //             fetchBalance();
-    //         })
-    //         .catch(err => {
-    //             alert(err + ". Session Timed out");
-    //             navigate("/signin_user");
-
-    //         })
-
-    // }
 
     const checkPage = (event) => {
         if (!(sessionStorage.getItem("token"))) {
@@ -99,39 +61,6 @@ export default function VendorDashboard() {
                 <br></br>
                 <br></br>
             </Container>
-
-
-            {/* <Container style={{
-                display: 'flex',
-                flexDirection: 'column',
-                // alignContent: 'flex-end',
-                // direction: 'rtl'
-            }}>
-                <Typography
-                    component="h1"
-                    variant="h6"
-                    style={{
-                        flex: 1
-                    }}>
-                    Wallet Balance : Rs. {wallet_balance}
-                </Typography>
-                <Button
-                    // fullWidth
-                    variant="contained"
-                    style={{
-                        flex: 1,
-                        maxWidth: '300px', maxHeight: '50px', minWidth: '30px', minHeight: '30px'
-                    }}
-                    onClick={handleWallet}>
-                    Add Money to Wallet
-                </Button>
-
-            </Container > */}
-
-
-            {/* <div align="center">
-                <BasicMenu type="Buyer" />
-            </div> */}
 
             <br></br>
             <br></br>

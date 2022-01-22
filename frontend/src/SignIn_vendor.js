@@ -8,7 +8,7 @@ import TextField from '../node_modules/@mui/material/TextField';
 import Link from '../node_modules/@mui/material/Link';
 import Grid from '../node_modules/@mui/material/Grid';
 import Box from '../node_modules/@mui/material/Box';
-import LockOutlinedIcon from '../node_modules/@mui/icons-material/LockOutlined';
+// import LockOutlinedIcon from '../node_modules/@mui/icons-material/LockOutlined';
 import Typography from '../node_modules/@mui/material/Typography';
 import Container from '../node_modules/@mui/material/Container';
 import { createTheme, ThemeProvider } from '../node_modules/@mui/material/styles';
@@ -17,6 +17,7 @@ import BasicMenu from './components/Menu';
 import validator from 'validator';
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
+import LoginTwoToneIcon from '@mui/icons-material/LoginTwoTone';
 
 const theme = createTheme();
 const backend_base_url = "http://localhost:4000";
@@ -95,7 +96,7 @@ export default function SignInVendor() {
                         }}
                     >
                         <Avatar sx={{ m: 1, bgcolor: 'secondary.main' }}>
-                            <LockOutlinedIcon />
+                            <LoginTwoToneIcon />
                         </Avatar>
                         <Typography component="h1" variant="h5">
                             Sign in

@@ -36,7 +36,7 @@ const ItemSchema = new Schema({
         required: false
     },
     addons: {
-        type: [String],
+        type: [[String,Number]],
         required: false
     }
 

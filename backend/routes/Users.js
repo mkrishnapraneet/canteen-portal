@@ -131,6 +131,7 @@ router.post("/update", auth, (req, res) => {
 
     User.findOne({ email })
         .then(user => {
+            if (!req.body.password) return res.status(400).json({ msg: "Invalid" });
             if (!user) return res.status(400).json({ msg: "User doesn't exist" });
             var new_pass = req.body.password;
             bcrypt.genSalt(10, (err, salt) => {

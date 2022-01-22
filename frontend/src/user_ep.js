@@ -22,6 +22,7 @@ import Select from '@mui/material/Select';
 import validator from 'validator';
 import { useNavigate } from "react-router-dom";
 import { useEffect } from 'react';
+import EditTwoToneIcon from '@mui/icons-material/EditTwoTone';
 
 // import {
 //     BrowserRouter,
@@ -51,10 +52,29 @@ export default function UserEditProfile() {
 
     const navigate = useNavigate();
 
+    const loadDetails = (event) => {
+        const token = sessionStorage.getItem("token");
+        axios
+            .get(`${backend_base_url}/user/userdetails`, { headers: { "auth-token": token } })
+            .then(res => {
+                setfname(res.data.fname);
+                setlname(res.data.lname);
+                // setPassword(res.data.password)
+                setContactNumber(res.data.contact_number);
+                setAge(res.data.age);
+                setBatch(res.data.batch);
+            })
+            .catch(err => {
+                alert("Unauthorised access. Session timed out");
+                navigate("/signin_user");
+            })
+    }
+
     const checkPage = (event) => {
         if (!(sessionStorage.getItem("token"))) {
             navigate("/signin_user");
         }
+        loadDetails();
     }
     useEffect(() => {
         let ignore = false;
@@ -124,10 +144,12 @@ export default function UserEditProfile() {
                             flexDirection: 'column',
                             alignItems: 'center',
                         }}
+
+                        
                     >
-                        {/* <Avatar sx={{ m: 1, bgcolor: 'secondary.main' }}> */}
-                        {/* <LockOutlinedIcon /> */}
-                        {/* </Avatar> */}
+                        <Avatar sx={{ m: 1, bgcolor: 'secondary.main' }}>
+                        <EditTwoToneIcon />
+                        </Avatar>
                         <Typography component="h1" variant="h5">
                             Edit Profile
                         </Typography>

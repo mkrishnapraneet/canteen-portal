@@ -24,6 +24,7 @@ import UserDashboard from './User';
 import UserEditProfile from './user_ep';
 import VendorDashboard from './Vendor';
 import VendorEditProfile from './vendor_ep';
+import VendorAddItem from './vendor_additem';
 
 const Layout = () => {
   return (
@@ -60,6 +61,7 @@ class App extends Component {
             <Route exact path="/vendor_dashboard" element={<VendorDashboard />} />
             <Route exact path="/user_editprofile" element={<UserEditProfile />} />
             <Route exact path="/vendor_editprofile" element={<VendorEditProfile />} />
+            <Route exact path="/vendor_additem" element={<VendorAddItem />} />
 
           </Routes>
         </BrowserRouter>

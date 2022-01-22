@@ -61,22 +61,6 @@ export default function SignUpUser() {
 
     const handleSubmit = (event) => {
         event.preventDefault();
-        // <MessagePopup open="true" severity="success" message="Signed Up successfully" />
-        // alert.show("Oh look, an alert!");
-
-        // const data = new FormData(event.currentTarget);
-        // eslint-disable-next-line no-console
-
-        // console.log({
-        //     fname: fname,
-        //     lname: lname,
-        //     email: email,
-        //     password: password,
-        //     contact_number: contact_number,
-        //     age: age,
-        //     batch: user_batch
-        // });
-
 
         axios
             .post(`${backend_base_url}/user/register`, {
@@ -90,7 +74,6 @@ export default function SignUpUser() {
                 wallet_balance: 0
             })
             .then((res) =>
-            // <MessagePopup open={true} severity="success" message="Signed Up successfully" /> 
             {
                 alert("Sign Up Successful. You will now be directed to the login page.")
                 navigate("/signin_user");

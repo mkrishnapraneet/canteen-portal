@@ -22,6 +22,8 @@ import Select from '@mui/material/Select';
 import validator from 'validator';
 import { useNavigate } from "react-router-dom";
 import { useEffect } from 'react';
+import EditTwoToneIcon from '@mui/icons-material/EditTwoTone';
+
 
 // import {
 //     BrowserRouter,
@@ -40,22 +42,49 @@ const theme = createTheme();
 const backend_base_url = "http://localhost:4000";
 
 export default function VendorEditProfile() {
-    const [fname, setfname] = React.useState('');
-    const [lname, setlname] = React.useState('');
+    const [manager_fname, setfname] = React.useState('');
+    const [manager_lname, setlname] = React.useState('');
     // const [email, setEmail] = React.useState('');
     const [password, setPassword] = React.useState('');
-    const [age, setAge] = React.useState(18);
-    const [user_batch, setBatch] = React.useState('UG1');
-    const [emailError, setEmailError] = React.useState('');
+    // const [age, setAge] = React.useState(18);
+    // const [user_batch, setBatch] = React.useState('UG1');
+    // const [emailError, setEmailError] = React.useState('');
     const [contact_number, setContactNumber] = React.useState('');
     const [phError, setPhoneError] = React.useState('');
+    const [shop_name, setShopName] = React.useState('');
+    const [opth, setOpth] = React.useState(0);
+    const [optm, setOptm] = React.useState(0);
+    const [clth, setClth] = React.useState(0);
+    const [cltm, setCltm] = React.useState(0);
 
     const navigate = useNavigate();
+
+    const loadDetails = (event) => {
+        const token = sessionStorage.getItem("token");
+        axios
+            .get(`${backend_base_url}/vendor/vendordetails`, { headers: { "auth-token": token } })
+            .then(res => {
+                setfname(res.data.manager_fname);
+                setlname(res.data.manager_lname);
+                // setPassword(res.data.password)
+                setContactNumber(res.data.contact_number);
+                setShopName(res.data.shop_name);
+                setOpth(((res.data.opening_time) - ((res.data.opening_time) % 100)) / 100);
+                setOptm(res.data.opening_time % 100);
+                setClth(((res.data.closing_time) - ((res.data.closing_time) % 100)) / 100);
+                setCltm(res.data.closing_time % 100);
+            })
+            .catch(err => {
+                alert("Unauthorised access. Session timed out");
+                navigate("/signin_user");
+            })
+    }
 
     const checkPage = (event) => {
         if (!(sessionStorage.getItem("token"))) {
             navigate("/signin_vendor");
         }
+        loadDetails();
     }
     useEffect(() => {
         let ignore = false;
@@ -70,15 +99,15 @@ export default function VendorEditProfile() {
 
         axios
             .post(`${backend_base_url}/vendor/update`, {
-                fname: fname,
-                lname: lname,
+                manager_fname: manager_fname,
+                manager_lname: manager_lname,
                 // email: email,
                 password: password,
                 contact_number: contact_number,
-                age: age,
-                // batch: user_batch,
-                // wallet_balance: 0
-            }, { headers: { "auth-token": token } } )
+                shop_name: shop_name,
+                opening_time: (opth * 100 + optm * 1),
+                closing_time: (clth * 100 + cltm * 1)
+            }, { headers: { "auth-token": token } })
             .then((res) =>
             // <MessagePopup open={true} severity="success" message="Signed Up successfully" /> 
             {
@@ -126,9 +155,9 @@ export default function VendorEditProfile() {
                             alignItems: 'center',
                         }}
                     >
-                        {/* <Avatar sx={{ m: 1, bgcolor: 'secondary.main' }}> */}
-                        {/* <LockOutlinedIcon /> */}
-                        {/* </Avatar> */}
+                        <Avatar sx={{ m: 1, bgcolor: 'secondary.main' }}>
+                        <EditTwoToneIcon />
+                        </Avatar>
                         <Typography component="h1" variant="h5">
                             Edit Profile
                         </Typography>
@@ -144,7 +173,7 @@ export default function VendorEditProfile() {
                                         fullWidth
                                         id="firstName"
                                         label="New First Name"
-                                        value={fname}
+                                        value={manager_fname}
                                         onChange={(event) => { setfname(event.target.value) }}
                                         autoFocus
                                     />
@@ -157,42 +186,12 @@ export default function VendorEditProfile() {
                                         type="string"
                                         label="New Last Name"
                                         name="lastName"
-                                        value={lname}
+                                        value={manager_lname}
                                         onChange={(event) => { setlname(event.target.value) }}
                                         autoComplete="family-name"
                                     />
                                 </Grid>
                                 <Grid item xs={12}>
-                                    {/* <ValidEmail 
-                                    value={email}
-                                    onChange={(event) => {setEmail(event.target.value)}}
-                                    /> */}
-                                    {/* <TextField
-                                        required
-                                        fullWidth
-                                        id="email"
-                                        label="Email Address"
-                                        name="email"
-                                        type="email"
-                                        value={email}
-                                        helperText={emailError}
-                                        onChange={
-                                            (event) => {
-                                                setEmail(event.target.value);
-                                                // if(event.target.value.match("[a-z0-9]+@[a-z].[a-z]") != null){
-                                                //     this.setEmail(event.target.value);
-                                                // }
-                                                if (validator.isEmail(event.target.value)) {
-                                                    setEmailError('Valid Email :)')
-                                                } else {
-                                                    setEmailError('Enter valid Email !')
-                                                }
-
-
-                                            }
-                                        }
-                                        autoComplete="email"
-                                    /> */}
                                 </Grid>
                                 <Grid item xs={12}>
                                     <TextField
@@ -205,6 +204,19 @@ export default function VendorEditProfile() {
                                         value={password}
                                         onChange={(event) => { setPassword(event.target.value) }}
                                         autoComplete="new-password"
+                                    />
+                                </Grid>
+                                <Grid item xs={12} >
+                                    <TextField
+                                        autoComplete="shop-name"
+                                        name="shopName"
+                                        required
+                                        fullWidth
+                                        id="shopName"
+                                        value={shop_name}
+                                        onChange={(event) => { setShopName(event.target.value) }}
+                                        label="Shop Name"
+
                                     />
                                 </Grid>
                                 <Grid item xs={12} >
@@ -232,61 +244,87 @@ export default function VendorEditProfile() {
                                         }
                                     />
                                 </Grid>
-                                {/* <Grid item xs={12}>
-                                    <MuiPhoneNumber
-                                        required defaultCountry={'in'}
-                                        autoComplete='phone-number'
-                                        value={contact_number}
-                                        onChange={(event) => { setContactNumber(event.target) }}
-                                    />
-                                </Grid> */}
+                                <Grid item xs={12}>
+                                    <Typography component="h1" variant="h5">
+                                        New Opening Time
+                                    </Typography>
+                                </Grid>
                                 <Grid item xs={12} sm={6}>
                                     <TextField
                                         required
                                         fullWidth
-                                        name="age"
-                                        label="Age"
+                                        name="opening_time_hours"
+                                        label="Opening Time Hours"
                                         type="number"
-                                        id="age"
-                                        value={age}
-                                        autoComplete="age"
+                                        id="opening_time_hours"
+                                        value={opth}
+                                        autoComplete="hours"
                                         onChange={(event) => {
-                                            event.target.value = event.target.value < 0 ? (0) : event.target.value;
-                                            setAge(event.target.value)
+                                            event.target.value = (event.target.value < 0 || event.target.value > 23) ? (0) : event.target.value;
+                                            setOpth(event.target.value);
+                                        }
+                                            // (event.target.value < 0 || event.target.value > 23)
+                                            //     ? (event.target.value = 0)
+                                            //     : event.target.value
+                                        }
+                                    />
+                                </Grid>
+                                <Grid item xs={12} sm={6}>
+                                    <TextField
+                                        required
+                                        fullWidth
+                                        name="opening_time_minutes"
+                                        label="Opening Time Minutes"
+                                        type="number"
+                                        id="opening_time_minutes"
+                                        autoComplete="minutes"
+                                        value={optm}
+                                        onChange={(event) => {
+                                            event.target.value = (event.target.value < 0 || event.target.value > 59) ? (0) : event.target.value;
+                                            setOptm(event.target.value);
+                                        }
+                                        }
+                                    />
+                                </Grid>
+                                <Grid item xs={12}>
+                                    <Typography component="h1" variant="h5">
+                                        New Closing Time
+                                    </Typography>
+                                </Grid>
+                                <Grid item xs={12} sm={6}>
+                                    <TextField
+                                        required
+                                        fullWidth
+                                        name="closing_time_hours"
+                                        label="Closing Time Hours"
+                                        type="number"
+                                        id="closing_time_hours"
+                                        autoComplete="hours"
+                                        value={clth}
+                                        onChange={(event) => {
+                                            event.target.value = (event.target.value < 0 || event.target.value > 23) ? (0) : event.target.value;
+                                            setClth(event.target.value);
                                         }
                                         }
                                     />
                                 </Grid>
                                 <Grid item xs={12} sm={6}>
-                                    {/* <UGMenu /> */}
-                                    <FormControl sx={{ minWidth: 120 }} fullWidth>
-                                        <InputLabel id="demo-simple-select-label">Batch</InputLabel>
-                                        <Select
-                                            labelId="demo-simple-select-label"
-                                            id="demo-simple-select"
-                                            value={user_batch}
-                                            label="Batch"
-                                            required
-                                            fullWidth
-                                            onChange={(event) => {
-                                                setBatch(event.target.value);
-                                            }}
-                                        >
-                                            <MenuItem value="UG1">UG1</MenuItem>
-                                            <MenuItem value="UG2">UG2</MenuItem>
-                                            <MenuItem value="UG3">UG3</MenuItem>
-                                            <MenuItem value="UG4">UG4</MenuItem>
-                                            <MenuItem value="UG5">UG5</MenuItem>
-                                        </Select>
-                                    </FormControl>
-
+                                    <TextField
+                                        required
+                                        fullWidth
+                                        name="closing_time_minutes"
+                                        label="Closing Time Minutes"
+                                        type="number"
+                                        id="closing_time_minutes"
+                                        autoComplete="minutes"
+                                        value={cltm}
+                                        onChange={(event) => {
+                                            event.target.value = (event.target.value < 0 || event.target.value > 59) ? (0) : event.target.value;
+                                            setCltm(event.target.value);
+                                        }
+                                        }
+                                    />
                                 </Grid>
-                                {/* <Grid item xs={12}>
-                                <FormControlLabel
-                                    control={<Checkbox value="allowExtraEmails" color="primary" />}
-                                    label="I want to receive inspiration, marketing promotions and updates via email."
-                                />
-                            </Grid> */}
                             </Grid>
                             <Button
                                 type="submit"

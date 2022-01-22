@@ -11,6 +11,18 @@ import { useNavigate } from "react-router-dom";
 export default function ButtonAppBarVendor() {
     const navigate = useNavigate();
 
+    const handleOrders = (event) => {
+
+    }
+
+    const handleMenu = (event) => {
+
+    }
+
+    const handleAddItem = (event) => {
+        navigate("/vendor_additem");
+    }
+
     const handleProfile = (event) => {
         navigate("/vendor_editprofile")
     }
@@ -39,6 +51,9 @@ export default function ButtonAppBarVendor() {
                     <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
                         Navigate
                     </Typography>
+                    <Button color="inherit" onClick={handleOrders}>Orders</Button>
+                    <Button color="inherit" onClick={handleMenu}>Menu</Button>
+                    <Button color="inherit" onClick={handleAddItem}>Add Item</Button>
                     <Button color="inherit" onClick={handleProfile}>Edit Profile</Button>
                     <Button color="inherit" onClick={handleLogout}>Logout</Button>
                 </Toolbar>

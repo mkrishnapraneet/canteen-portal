@@ -2,6 +2,7 @@ var express = require("express");
 var router = express.Router();
 
 const Item = require("../models/Items");
+const auth = require("../middleware/auth");
 
 // GET request 
 // Getting all the items
@@ -23,7 +24,7 @@ router.post("/register", (req, res) => {
         shop_name: req.body.shop_name,
         item_name: req.body.item_name,
         price: req.body.price,
-        rating: req.body.rating,
+        // rating: req.body.rating,
         veg: req.body.veg,
         tags: req.body.tags,
         addons: req.body.addons
