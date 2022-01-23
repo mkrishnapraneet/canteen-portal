@@ -54,6 +54,7 @@ export default function VendorMenu() {
         if (!(sessionStorage.getItem("token"))) {
             navigate("/signin_vendor");
         }
+        // window.location.reload();
         // fetchBalance();
     }
     useEffect(() => {

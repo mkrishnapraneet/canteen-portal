@@ -52,6 +52,42 @@ router.get("/shop_items", auth, function (req, res) {
 
 });
 
+router.post("/delete_item", auth, function (req, res) {
+    const token = req.header("auth-token");
+    const decoded = jwt.verify(token, config.get("jwtSecret"));
+    console.log(decoded);
+    email = decoded.email;
+    Vendor.findOne({ email })
+        .then(vendor => {
+            if (!vendor) {
+                return res.status(400).json({ msg: "Vendor doesn't exist" });
+            }
+            // res.status(200).json(vendor)
+            else {
+                const sh_name = vendor.shop_name;
+                console.log(sh_name);
+                Item.findOne({ shop_name: sh_name, 
+                item_name: req.body.item_name })
+                    .then(item_to_delete => {
+                        console.log(item_to_delete);
+                        item_to_delete.remove()
+                        .then( () => {
+                            res.json({success: true})
+                        }) 
+                        // res.json(items);
+
+
+                    })
+                    .catch(err => {
+                        console.log(err);
+                        res.status(400).send(err);
+                    });
+
+            }
+        })
+
+});
+
 // POST request 
 // Add a item to db
 router.post("/register", (req, res) => {

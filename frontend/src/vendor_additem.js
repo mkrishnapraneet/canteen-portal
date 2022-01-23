@@ -44,9 +44,6 @@ export default function VendorAddItem() {
     const [shop_name, setShopName] = React.useState('');
     const [veg, setVeg] = React.useState("veg");
     const [addon, setAddon] = React.useState([]);
-
-
-
     const [mychips, setChips] = React.useState([]);
 
     const handleAddonCallback = (addon_name, addon_price) => {
