@@ -220,7 +220,7 @@ export default function VendorAddItem() {
                                 <Grid item xs={12} sm={6}>
                                     {/* <UGMenu /> */}
                                     <FormControl sx={{ minWidth: 120 }} fullWidth>
-                                        <InputLabel id="demo-simple-select-label">Batch</InputLabel>
+                                        <InputLabel id="demo-simple-select-label">Veg/Non-Veg</InputLabel>
                                         <Select
                                             labelId="demo-simple-select-label"
                                             id="demo-simple-select"
@@ -264,6 +264,7 @@ export default function VendorAddItem() {
                                 variant="contained"
                                 sx={{ mt: 3, mb: 2 }}
                                 onClick={handleSubmit}
+                                onSubmit={e => { e.preventDefault(); }}
                             >
                                 Add Item
                             </Button>
