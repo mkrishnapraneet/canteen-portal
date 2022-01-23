@@ -5,13 +5,13 @@ const ItemSchema = new Schema({
     shop_name: {
         type: String,
         // unique: true,
-        dropDups: true,
+        // dropDups: true,
         required: true
     },
     item_name: {
         type: String,
         // unique: true,
-        dropDups: true,
+        // dropDups: true,
         required: true
     },
     price: {

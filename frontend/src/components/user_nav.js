@@ -11,6 +11,10 @@ import { useNavigate } from "react-router-dom";
 export default function ButtonAppBar() {
     const navigate = useNavigate();
 
+    const handleMenu = (event) => {
+        navigate("/user_menu");
+    }
+
     const handleProfile = (event) => {
         navigate("/user_editprofile")
     }
@@ -39,6 +43,7 @@ export default function ButtonAppBar() {
                     <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
                         Navigate
                     </Typography>
+                    <Button color="inherit" onClick={handleMenu}>Menu</Button>
                     <Button color="inherit" onClick={handleProfile}>Edit Profile</Button>
                     <Button color="inherit" onClick={handleLogout}>Logout</Button>
                 </Toolbar>

@@ -16,7 +16,7 @@ export default function ButtonAppBarVendor() {
     }
 
     const handleMenu = (event) => {
-
+        navigate("/vendor_menu");
     }
 
     const handleAddItem = (event) => {

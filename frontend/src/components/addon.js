@@ -6,7 +6,7 @@ import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
 import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
-import { Input } from '@mui/material';
+import { Input, Typography } from '@mui/material';
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 
@@ -77,9 +77,13 @@ export default function AddonDialog(props) {
                     <DialogContentText>
                         Enter the name and price of the add-on
                     </DialogContentText>
+                    <br></br>
+                    <Typography>
+                        Name
+                    </Typography>
                     <Input
                         autoFocus
-                        margin="dense"
+                        // margin="dense"
                         id="addon_name"
                         label="Add-on Name"
                         type="string"
@@ -88,9 +92,14 @@ export default function AddonDialog(props) {
                         fullWidth
                         variant="standard"
                     />
+                    <br></br>
+                    <br></br>
+                    <Typography>
+                        Price
+                    </Typography>
                     <Input
                         
-                        margin="dense"
+                        // margin="dense"
                         id="money"
                         label="Price"
                         type="number"

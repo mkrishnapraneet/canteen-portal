@@ -3,10 +3,15 @@ var router = express.Router();
 
 const Item = require("../models/Items");
 const auth = require("../middleware/auth");
+const bcrypt = require("bcryptjs");
+const config = require("config");
+const jwt = require("jsonwebtoken");
+
+const Vendor = require("../models/Vendors");
 
 // GET request 
 // Getting all the items
-router.get("/", function (req, res) {
+router.get("/", auth, function (req, res) {
     Item.find(function (err, items) {
         if (err) {
             console.log(err);
@@ -14,6 +19,37 @@ router.get("/", function (req, res) {
             res.json(items);
         }
     })
+});
+
+router.get("/shop_items", auth, function (req, res) {
+    const token = req.header("auth-token");
+    const decoded = jwt.verify(token, config.get("jwtSecret"));
+    console.log(decoded);
+    email = decoded.email;
+    Vendor.findOne({ email })
+        .then(vendor => {
+            if (!vendor) {
+                return res.status(400).json({ msg: "Vendor doesn't exist" });
+            }
+            // res.status(200).json(vendor)
+            else {
+                const sh_name = vendor.shop_name;
+                console.log(sh_name);
+                Item.find({ shop_name: sh_name })
+                    .then(items => {
+                        console.log(sh_name);
+
+                        res.json(items);
+
+                    })
+                    .catch(err => {
+                        console.log(err);
+                        res.status(400).send(err);
+                    });
+
+            }
+        })
+
 });
 
 // POST request 
