@@ -38,7 +38,11 @@ const ItemSchema = new Schema({
     addons: {
         type: [[String,Number]],
         required: false
-    }
+    },
+    favourites: {
+		type: [String],
+		required: false
+	}
 
 
 });

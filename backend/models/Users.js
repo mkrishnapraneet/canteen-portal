@@ -43,7 +43,7 @@ const UserSchema = new Schema({
 		min: 0,
 		default: 0,
 		required: false
-	}
+	}	
 
 });
 

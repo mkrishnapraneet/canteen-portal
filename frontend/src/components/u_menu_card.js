@@ -23,6 +23,7 @@ import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
+import { useEffect } from 'react';
 
 const backend_base_url = "http://localhost:4000";
 
@@ -32,12 +33,38 @@ export default function BasicCardUser(props) {
 
     console.log(props.items);
 
+    const [reload_req, toggleReload] = React.useState(false);
+
     const [quantity, setQuantity] = React.useState(1);
     const [order_addons, setOrderAddons] = React.useState([]);
     const [open, setOpen] = React.useState(false);
     const [dialog_item, setDialogItem] = React.useState({
         addons: ""
     });
+    const [current_user, setCurrentUser] = React.useState('');
+
+    const getUser = (event) => {
+        const token = sessionStorage.getItem("token");
+        axios
+            .get(`${backend_base_url}/user/userdetails`, { headers: { "auth-token": token } })
+            .then(res => {
+                setCurrentUser(res.data.email);
+                console.log(current_user);
+            })
+    }
+    const checkPage = (event) => {
+        if (!(sessionStorage.getItem("token"))) {
+            navigate("/signin_user");
+        }
+        // fetchBalance();
+        getUser();
+    }
+    useEffect(() => {
+        let ignore = false;
+
+        if (!ignore) checkPage()
+        return () => { ignore = true; }
+    }, []);
 
     // const [checked, setChecked] = React.useState(false);
 
@@ -59,12 +86,6 @@ export default function BasicCardUser(props) {
             console.log(order_addons);
         }
     };
-
-    const handleQuantity = (item, value) => {
-
-    }
-
-
 
     const handleSubmit = (item) => {
         setOpen(false);
@@ -195,6 +216,65 @@ export default function BasicCardUser(props) {
             }
         }
 
+        const updateFavs = (item, favs) => {
+            const token = sessionStorage.getItem("token");
+            axios
+                .post(`${backend_base_url}/item/update_item_forfav`, {
+                    item_name: item.item_name,
+                    shop_name: item.shop_name,
+                    favourites: favs
+                }, { headers: { "auth-token": token } })
+                .then((res) => {
+                    // alert("Item has been updated successfully");
+                    // window.location.reload();
+                    toggleReload(!reload_req);
+                    // window.location.reload();
+                    // navigate("/vendor_dashboard");
+                    // callPopUp();
+                }
+                )
+                .catch((err) => {
+                    navigate("/signin_vendor");
+                    // if (err.response.status === 400) {
+                    alert("Item update unsuccessful. Please check the values provided and also make sure you're signed in");
+                    // }
+                    // callPopUp();
+                })
+        }
+
+        const removeFav = (item) => {
+            const favs = item.favourites;
+            const index = favs.indexOf(current_user);
+            if (index > -1) {
+                favs.splice(index, 1);
+                console.log(favs);
+                updateFavs(item, favs);
+            }
+        }
+
+        const addFav = (item) => {
+            const favs = item.favourites;
+            favs.push(current_user);
+            console.log(favs)
+            updateFavs(item, favs);
+        }
+
+        const display_favourite = (item) => {
+            const favs = item.favourites;
+            const index = favs.indexOf(current_user);
+            if (index > -1) {
+                return (
+                    <Checkbox color='error' onChange={() => removeFav(item)} defaultChecked icon={<FavoriteBorder />} checkedIcon={<Favorite />} />
+                )
+
+            }
+            else {
+                return (
+                    <Checkbox color='error' onChange={() => addFav(item)} icon={<FavoriteBorder />} checkedIcon={<Favorite />} />
+                )
+            }
+        }
+
 
         if (items.length > 0) {
             return (
@@ -226,7 +306,7 @@ export default function BasicCardUser(props) {
                                         <Grid item style={{
                                             flex: 1
                                         }}>
-                                            <Checkbox color='error' icon={<FavoriteBorder />} checkedIcon={<Favorite />} />
+                                            {display_favourite(item)}
                                         </Grid>
                                     </Grid>
                                     <Grid style={{

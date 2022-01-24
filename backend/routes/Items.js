@@ -159,6 +159,28 @@ router.post("/update_item", auth, function (req, res) {
 
 });
 
+router.post("/update_item_forfav", auth, function (req, res) {
+
+    const sh_name = req.body.shop_name;
+    console.log(sh_name);
+
+    var myquery = { shop_name: sh_name, item_name: req.body.item_name };
+    var newvalues = {
+        $set: {
+            favourites: req.body.favourites
+        }
+    }
+
+    Item.updateOne(myquery, newvalues, function (err, res) {
+        if (err) throw err;
+    })
+    res.status(200).json({ msg: "details updated" });
+    console.log("details updated");
+
+
+
+});
+
 // POST request 
 // Add a item to db
 router.post("/register", (req, res) => {
