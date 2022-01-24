@@ -31,6 +31,10 @@ export default function WalletFormDialog(props) {
         setOpen(true);
     };
 
+    const handleOutClose = (event) => {
+        setOpen(false);
+    }
+
     const handleClose = () => {
         setOpen(false);
 
@@ -61,7 +65,7 @@ export default function WalletFormDialog(props) {
             <Button variant="outlined" onClick={handleClickOpen}>
                 Add Money to Wallet
             </Button>
-            <Dialog open={open} onClose={handleClose}>
+            <Dialog open={open} onClose={handleOutClose}>
                 <DialogTitle>Add Amount</DialogTitle>
                 <DialogContent>
                     <DialogContentText>
@@ -82,7 +86,7 @@ export default function WalletFormDialog(props) {
                     />
                 </DialogContent>
                 <DialogActions>
-                    {/* <Button onClick={handleClose}>Cancel</Button> */}
+                    <Button onClick={handleOutClose}>Cancel</Button>
                     <Button onClick={handleClose}>Add</Button>
                 </DialogActions>
             </Dialog>

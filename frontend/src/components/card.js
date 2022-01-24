@@ -18,6 +18,13 @@ import DialogContent from '@mui/material/DialogContent';
 import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
 import { Input } from '@mui/material';
+import AddonDialog from './addon';
+import TextField from '@mui/material/TextField';
+import FormControl from '@mui/material/FormControl';
+import InputLabel from '@mui/material/InputLabel';
+import MenuItem from '@mui/material/MenuItem';
+import Select from '@mui/material/Select';
+import TagsInput from './tags';
 
 
 const backend_base_url = "http://localhost:4000";
@@ -35,7 +42,81 @@ export default function BasicCard(props) {
   console.log(props.items);
   const navigate = useNavigate();
   const [open, setOpen] = React.useState(false);
-  var [amount, setAmount] = React.useState(0);
+  // var [amount, setAmount] = React.useState(0);
+
+  const [item_name, setItemName] = React.useState('');
+  const [price, setPrice] = React.useState(0);
+  const [shop_name, setShopName] = React.useState('');
+  const [veg, setVeg] = React.useState("veg");
+  const [addon, setAddon] = React.useState([]);
+  const [mychips, setChips] = React.useState([]);
+  const [old_item_name, setOldItemName] = React.useState('');
+
+  const handleAddonCallback = (addon_name, addon_price) => {
+
+    console.log("reach: " + addon_name, addon_price);
+    addon.push([addon_name, addon_price]);
+    console.log(addon);
+
+  }
+
+  const getShop = (event) => {
+    const token = sessionStorage.getItem("token");
+    axios
+      .get(`${backend_base_url}/vendor/vendordetails`, { headers: { "auth-token": token } })
+      .then(res => {
+        setShopName(res.data.shop_name);
+        console.log(shop_name);
+      })
+  }
+
+  function handleSelecetedTags(chipper) {
+    setChips(chipper);
+    // console.log(mychips);
+  }
+
+  const handleSubmit = (item) => {
+    setOpen(false);
+    const token = sessionStorage.getItem("token");
+    axios
+      .post(`${backend_base_url}/item/update_item`, {
+        old_item_name: old_item_name,
+        item_name: item_name,
+        price: price,
+        veg: veg,
+        tags: mychips,
+        addons: addon
+      }, { headers: { "auth-token": token } })
+      .then((res) => {
+        // alert("Item has been updated successfully");
+        window.location.reload();
+        // navigate("/vendor_dashboard");
+        // callPopUp();
+      }
+      )
+      .catch((err) => {
+        navigate("/signin_vendor");
+        // if (err.response.status === 400) {
+        alert("Item update unsuccessful. Please check the values provided and also make sure you're signed in");
+        // }
+        // callPopUp();
+      })
+  }
+
+  const getItemDetails = (item) => {
+    const token = sessionStorage.getItem("token");
+    axios
+      .post(`${backend_base_url}/item/itemdetails`, {
+        item_name: item.item_name
+      }, { headers: { "auth-token": token } })
+      .then(res => {
+        setItemName(res.data.item_name);
+        setOldItemName(res.data.item_name);
+        setPrice(res.data.price);
+        setVeg(res.data.veg);
+        // setAddon(res.data.addons);
+      })
+  }
 
 
   const display_cards = (props) => {
@@ -45,7 +126,7 @@ export default function BasicCard(props) {
 
     const display_tags = (item) => {
       const tags = item.tags;
-      console.log(tags);
+      // console.log(tags);
 
       if (tags.length > 0) {
         return (
@@ -90,7 +171,7 @@ export default function BasicCard(props) {
 
     const display_addons = (item) => {
       const addons = item.addons;
-      console.log(addons);
+      // console.log(addons);
       if (addons.length > 0) {
         return (
           addons.map((addon, index) => {
@@ -120,16 +201,18 @@ export default function BasicCard(props) {
 
           const handleEdit = (item) => {
             setOpen(true);
+            getShop();
+            getItemDetails(item);
           }
 
           const handleClose = () => {
             setOpen(false);
           }
 
-          const handleChange = (event) => {
-            event.target.value = event.target.value < 0 ? (0) : event.target.value;
-            setAmount(event.target.value);
-          }
+          // const handleChange = (event) => {
+          //   event.target.value = event.target.value < 0 ? (0) : event.target.value;
+          //   setAmount(event.target.value);
+          // }
 
           const handleDelete = (item) => {
             // event.preventDefault();
@@ -141,7 +224,7 @@ export default function BasicCard(props) {
                 shop_name: item.shop_name
               }, { headers: { "auth-token": token } })
               .then(res => {
-                alert("Item Deleted");
+                // alert("Item Deleted");
                 window.location.reload();
               })
               .catch(err => {
@@ -267,25 +350,89 @@ export default function BasicCard(props) {
                 <DialogTitle>Edit Item</DialogTitle>
                 <DialogContent>
                   <DialogContentText>
-                    Edit Details
+                    Note that tags and addons are reset to none. Add them as you please
                   </DialogContentText>
-                  <Input
-                    autoFocus
-                    margin="dense"
-                    id="money"
-                    label="Amount"
-                    type="number"
-                    min="0"
-                    onChange={handleChange}
-                    // onkeyup="if(this.value<0){this.value= this.value * -1}"
-                    value={amount}
-                    fullWidth
-                    variant="standard"
-                  />
+                  <br></br>
+                  <Grid container spacing={2}>
+                    <Grid item xs={12} >
+                      <TextField
+                        autoComplete="given-name"
+                        name="item_name"
+                        type="string"
+                        required
+                        fullWidth
+                        id="item_name"
+                        label="Item Name"
+                        value={item_name}
+                        onChange={(event) => { setItemName(event.target.value) }}
+                        onSubmit={e => { e.preventDefault(); }}
+
+                      />
+                    </Grid>
+                    <Grid item xs={12} sm={6}>
+                      <TextField
+                        required
+                        fullWidth
+                        name="price"
+                        label="Price"
+                        type="number"
+                        id="price"
+                        value={price}
+                        autoComplete="price"
+                        onChange={(event) => {
+                          event.target.value = event.target.value < 0 ? (0) : event.target.value;
+                          setPrice(event.target.value)
+                        }
+                        }
+                        onSubmit={e => { e.preventDefault(); }}
+                      />
+                    </Grid>
+
+                    <Grid item xs={12} sm={6}>
+                      {/* <UGMenu /> */}
+                      <FormControl sx={{ minWidth: 120 }} fullWidth>
+                        <InputLabel id="demo-simple-select-label">Veg/Non-Veg</InputLabel>
+                        <Select
+                          labelId="demo-simple-select-label"
+                          id="demo-simple-select"
+                          value={veg}
+                          label="Veg/Non-Veg"
+                          required
+                          fullWidth
+                          onChange={(event) => {
+                            setVeg(event.target.value);
+                          }}
+                        >
+                          <MenuItem value="veg">Veg</MenuItem>
+                          <MenuItem value="nonveg">Non-Veg</MenuItem>
+                        </Select>
+                      </FormControl>
+
+                    </Grid>
+
+                    <Grid item xs={12}>
+                      <TagsInput
+                        selectedTags={handleSelecetedTags}
+                        fullWidth
+                        variant="outlined"
+                        id="tags"
+                        name="tags"
+                        placeholder="Press Space to create tag"
+                        label="tags"
+                      // onSubmit={e => { e.preventDefault(); }}
+                      />
+                    </Grid>
+
+                    <Grid item xs={12}>
+                      <AddonDialog
+                        func={handleAddonCallback} />
+                    </Grid>
+
+                  </Grid>
                 </DialogContent>
                 <DialogActions>
-                  {/* <Button onClick={handleClose}>Cancel</Button> */}
-                  <Button onClick={handleClose}>Edit</Button>
+                  <Button onClick={handleClose}>Cancel</Button>
+                  <Button onClick={() => handleSubmit(item)}>Update</Button>
                 </DialogActions>
               </Dialog>
 

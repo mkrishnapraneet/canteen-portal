@@ -66,14 +66,16 @@ router.post("/delete_item", auth, function (req, res) {
             else {
                 const sh_name = vendor.shop_name;
                 console.log(sh_name);
-                Item.findOne({ shop_name: sh_name, 
-                item_name: req.body.item_name })
+                Item.findOne({
+                    shop_name: sh_name,
+                    item_name: req.body.item_name
+                })
                     .then(item_to_delete => {
                         console.log(item_to_delete);
                         item_to_delete.remove()
-                        .then( () => {
-                            res.json({success: true})
-                        }) 
+                            .then(() => {
+                                res.json({ success: true })
+                            })
                         // res.json(items);
 
 
@@ -82,6 +84,75 @@ router.post("/delete_item", auth, function (req, res) {
                         console.log(err);
                         res.status(400).send(err);
                     });
+
+            }
+        })
+
+});
+
+router.post("/itemdetails", auth, function (req, res) {
+    const token = req.header("auth-token");
+    const decoded = jwt.verify(token, config.get("jwtSecret"));
+    console.log(decoded);
+    email = decoded.email;
+    Vendor.findOne({ email })
+        .then(vendor => {
+            if (!vendor) {
+                return res.status(400).json({ msg: "Vendor doesn't exist" });
+            }
+            // res.status(200).json(vendor)
+            else {
+                const sh_name = vendor.shop_name;
+                console.log(sh_name);
+                Item.findOne({
+                    shop_name: sh_name,
+                    item_name: req.body.item_name
+                })
+                    .then(item => {
+                        console.log(item);
+                        res.json(item);
+                    })
+                    .catch(err => {
+                        console.log(err);
+                        res.status(400).send(err);
+                    });
+
+            }
+        })
+
+});
+
+router.post("/update_item", auth, function (req, res) {
+    const token = req.header("auth-token");
+    const decoded = jwt.verify(token, config.get("jwtSecret"));
+    console.log(decoded);
+    email = decoded.email;
+    Vendor.findOne({ email })
+        .then(vendor => {
+            if (!vendor) {
+                return res.status(400).json({ msg: "Vendor doesn't exist" });
+            }
+            // res.status(200).json(vendor)
+            else {
+                const sh_name = vendor.shop_name;
+                console.log(sh_name);
+
+                var myquery = { shop_name: sh_name, item_name: req.body.old_item_name };
+                var newvalues = {
+                    $set: {
+                        item_name: req.body.item_name,
+                        price: req.body.price,
+                        veg: req.body.veg,
+                        tags: req.body.tags,
+                        addons: req.body.addons
+                    }
+                }
+
+                Item.updateOne(myquery, newvalues, function (err, res) {
+                    if (err) throw err;
+                })
+                res.status(200).json({ msg: "details updated" });
+                console.log("details updated");
 
             }
         })
