@@ -102,7 +102,7 @@ export default function UserDashboard() {
             </Container>
 
 
-            <Container style={{
+            {/* <Container style={{
                 display: 'flex',
                 flexDirection: 'column',
                 // alignContent: 'flex-end',
@@ -116,16 +116,6 @@ export default function UserDashboard() {
                     }}>
                     Wallet Balance : Rs. {wallet_balance}
                 </Typography>
-                {/* <Button
-                    // fullWidth
-                    variant="contained"
-                    style={{
-                        flex: 1,
-                        maxWidth: '300px', maxHeight: '50px', minWidth: '30px', minHeight: '30px'
-                    }}
-                    onClick={handleWallet}>
-                    Add Money to Wallet
-                </Button> */}
 
                 <Box
                     component="h1"
@@ -139,7 +129,7 @@ export default function UserDashboard() {
                     />
                 </Box>
 
-            </Container >
+            </Container > */}
 
 
             {/* <div align="center">

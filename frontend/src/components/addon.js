@@ -38,6 +38,10 @@ export default function AddonDialog(props) {
         setOpen(true);
     };
 
+    const handleOutClose = () => {
+        setOpen(false);
+    }
+
     const handleClose = (event) => {
         setOpen(false);
         // event.preventDefault();
@@ -71,7 +75,7 @@ export default function AddonDialog(props) {
             <Button variant="outlined" onClick={handleClickOpen}>
                 Add an add-on
             </Button>
-            <Dialog open={open} onClose={handleClose}>
+            <Dialog open={open} onClose={handleOutClose}>
                 <DialogTitle>Add Add-On</DialogTitle>
                 <DialogContent>
                     <DialogContentText>
@@ -112,7 +116,7 @@ export default function AddonDialog(props) {
                     />
                 </DialogContent>
                 <DialogActions>
-                    {/* <Button onClick={handleClose}>Cancel</Button> */}
+                    <Button onClick={handleOutClose}>Cancel</Button>
                     <Button onClick={handleClose}>Add</Button>
                 </DialogActions>
             </Dialog>

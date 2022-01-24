@@ -13,6 +13,7 @@ var VendorRouter = require("./routes/Vendors");
 var ItemRouter = require("./routes/Items");
 var UserAuth = require("./routes/user_auth");
 var VendorAuth = require("./routes/vendor_auth");
+var OrderRouter = require("./routes/Orders");
 
 app.use(cors());
 app.use(bodyParser.json());
@@ -34,5 +35,6 @@ app.use("/vendor", VendorRouter);
 app.use("/item", ItemRouter);
 app.use("/user_auth", UserAuth);
 app.use("/vendor_auth", VendorAuth);
+app.use("/order", OrderRouter);
 
 app.listen(port, () => console.log(`Server is running on Port: ${port}`));
