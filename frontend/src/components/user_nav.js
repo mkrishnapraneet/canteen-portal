@@ -39,6 +39,14 @@ export default function ButtonAppBar() {
             })
     }
 
+    const handleFavourites = (event) => {
+        navigate("/favourites");
+    }
+
+    const handleOrders = (event) => {
+        navigate("/user_orders");
+    }
+
     const handleGoWallet = (event) => {
         navigate("/user_dashboard");
     }
@@ -89,6 +97,8 @@ export default function ButtonAppBar() {
                         Navigate
                     </Typography>
                     <Button color="inherit" onClick={handleGoWallet}>Wallet</Button>
+                    <Button color="inherit" onClick={handleFavourites}>Favourites</Button>
+                    <Button color="inherit" onClick={handleOrders}>Orders</Button>                    
                     <Button color="inherit" onClick={handleMenu}>Menu</Button>
                     <Button color="inherit" onClick={handleProfile}>Edit Profile</Button>
                     <Button color="inherit" onClick={handleLogout}>Logout</Button>

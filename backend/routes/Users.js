@@ -54,6 +54,29 @@ router.post("/addmoney", auth, (req, res) => {
             console.log("wallet balance updated");
         })
 
+});
+
+router.post("/refund", auth, (req, res) => {
+    const token = req.header("auth-token");
+    const decoded = jwt.verify(token, config.get("jwtSecret"));
+    console.log(decoded);
+    // email = decoded.email;
+    user_email = req.body.user_email;
+
+    User.findOne({ email: user_email })
+        .then(user => {
+            if (!user) {
+                return res.status(400).json({ msg: "User doesn't exist" });
+            }
+            var myquery = { email: user_email };
+            var newvalues = { $set: { wallet_balance: user.wallet_balance * 1 + req.body.money_to_refund } };
+            User.updateOne(myquery, newvalues, function (err, res) {
+                if (err) throw err;
+            })
+            res.status(200).json({ msg: "wallet balance updated" });
+            console.log("wallet balance updated");
+        })
+
 })
 
 // NOTE: Below functions are just sample to show you API endpoints working, for the assignment you may need to edit them

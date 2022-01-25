@@ -24,15 +24,14 @@ import DialogTitle from '@mui/material/DialogTitle';
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import { useEffect } from 'react';
-import RadioButtonCheckedIcon from '@mui/icons-material/RadioButtonChecked';
 
 const backend_base_url = "http://localhost:4000";
 
 
-export default function BasicCardUser(props) {
+export default function BasicCardUserOrder(props) {
     const navigate = useNavigate();
 
-    console.log(props.items);
+    console.log(props.orders);
 
     const [reload_req, toggleReload] = React.useState(false);
 
@@ -147,7 +146,7 @@ export default function BasicCardUser(props) {
 
 
     const display_cards = (props) => {
-        const items = props.items;
+        const orders = props.orders;
 
         const display_tags = (item) => {
             const tags = item.tags;
@@ -203,7 +202,7 @@ export default function BasicCardUser(props) {
                         const disp = addon[0] + ", Rs " + addon[1];
                         // order_addons.push(addon);
                         return (
-                            <FormControlLabel control={<Checkbox onChange={(event) => { handleCheckboxChange(event, addon) }} />} label={disp} />
+                            <Chip label={disp} ></Chip>
                         )
 
                     })
@@ -227,8 +226,8 @@ export default function BasicCardUser(props) {
                 }, { headers: { "auth-token": token } })
                 .then((res) => {
                     // alert("Item has been updated successfully");
-                    window.location.reload();
-                    // toggleReload(!reload_req);
+                    // window.location.reload();
+                    toggleReload(!reload_req);
                     // window.location.reload();
                     // navigate("/vendor_dashboard");
                     // callPopUp();
@@ -255,80 +254,71 @@ export default function BasicCardUser(props) {
 
         const addFav = (item) => {
             const favs = item.favourites;
-            const index = favs.indexOf(current_user);
-            if (index <= -1) {
-                favs.push(current_user);
-                console.log(favs)
-                updateFavs(item, favs);
-            }
-
-        }
-
-        const checkFav = (item, ch) => {
-            if (ch === true) {
-                addFav(item);
-            }
-            else {
-                removeFav(item);
-            }
+            favs.push(current_user);
+            console.log(favs)
+            updateFavs(item, favs);
         }
 
         const display_favourite = (item) => {
             const favs = item.favourites;
             const index = favs.indexOf(current_user);
-            // var ch = false;
-            // if (index > -1) {
-            //     ch = true;
-            // }
-            // return (
-            //     <Checkbox color='error' checked={ch} onChange={() => checkFav(item, ch)} icon={<FavoriteBorder />} checkedIcon={<Favorite />} />
-            // )
             if (index > -1) {
                 return (
-                    <Checkbox color='error' onChange={() => removeFav(item)} defaultChecked={true} icon={<FavoriteBorder />} checkedIcon={<Favorite />} />
+                    <Checkbox color='error' onChange={() => removeFav(item)} defaultChecked icon={<FavoriteBorder />} checkedIcon={<Favorite />} />
                 )
 
             }
             else {
                 return (
-                    <Checkbox color='error' onChange={() => addFav(item)} defaultChecked={false} icon={<FavoriteBorder />} checkedIcon={<Favorite />} />
+                    <Checkbox color='error' onChange={() => addFav(item)} icon={<FavoriteBorder />} checkedIcon={<Favorite />} />
                 )
             }
         }
 
-        const checkTime = (item) => {
-            var currentdate = new Date();
 
-            var hours = currentdate.getHours();
-            var minutes = currentdate.getMinutes();
-
-            var time = (hours * 100) + (minutes * 1);
-            console.log(time);
-
-            axios
-                .post(`${backend_base_url}/vendor/vendor_timings`, {
-                    shop_name: item.shop_name,
-                    order_time: time
-                })
-                .then((res) => {
-                    setDialogItem(item);
-                    setOpen(true);
-                })
-                .catch((err) => {
-                    alert("Shop is closed right now. Please try ordering later");
-                })
-        }
-
-
-        if (items.length > 0) {
+        if (orders.length > 0) {
             return (
-                items.map((item, index) => {
+                orders.map((order, index) => {
                     // console.log(item);
 
-                    const handleOrder = (item) => {
-                        checkTime(item);
-
+                    const handleOrder = (order) => {
+                        setDialogItem(order);
+                        setOpen(true);
                         // console.log(item);
+                    }
+
+                    const handlePickup = (order) => {
+                        if (order.status === 'ready') {
+                            const token = sessionStorage.getItem("token");
+                            axios
+                                .post(`${backend_base_url}/order/update_order_user`, {
+                                    item_name: order.item_name,
+                                    shop_name: order.shop_name,
+                                    placed_time: order.placed_time,
+                                    status: 'completed'
+                                }, { headers: { "auth-token": token } })
+                                .then((res) => {
+                                    alert("Order status has been updated successfully");
+                                    window.location.reload();
+                                    // navigate("/vendor_dashboard");
+                                    // callPopUp();
+                                }
+                                )
+                                .catch((err) => {
+                                    navigate("/signin_user");
+                                    // if (err.response.status === 400) {
+                                    alert("Status update unsuccessful. Please check the values provided and also make sure you're signed in");
+                                    // }
+                                    // callPopUp();
+                                })
+                        }
+                        else if (order.status === 'completed') {
+                            alert("The order has been already picked up");
+                        }
+
+                        else {
+                            alert("The order is not yet ready");
+                        }
                     }
                     return (
                         <div>
@@ -343,30 +333,27 @@ export default function BasicCardUser(props) {
                                     flexDirection: 'row',
                                     justifyContent: 'center'
                                 }}>
-                                    <Grid style={{
+                                    {/* <Grid style={{
                                         flex: 0.5,
                                         display: 'flex'
                                     }}>
                                         <Grid item style={{
-                                            display: 'flex',
-                                            flex: 1,
-                                            justifyContent: 'center',
-                                            alignItems: 'center'
+                                            flex: 1
                                         }}>
-                                            {/* {display_favourite(item)} */}
-                                            <RadioButtonCheckedIcon></RadioButtonCheckedIcon>
+                                            {display_favourite(order)}
                                         </Grid>
-                                    </Grid>
+                                    </Grid> */}
                                     <Grid style={{
                                         flex: 1,
                                         display: 'flex',
-                                        flexDirection: 'column'
+                                        flexDirection: 'column',
+                                        padding: 15
                                     }}>
                                         <Grid item style={{
                                             flex: 1
                                         }}>
                                             <Typography variant="h5" component="div" >
-                                                {item.item_name}
+                                                {order.item_name}
                                             </Typography>
                                         </Grid>
                                         <br></br>
@@ -374,20 +361,35 @@ export default function BasicCardUser(props) {
                                             flex: 1
                                         }}>
                                             <Typography sx={{ mb: 1.5 }} color="text.secondary" >
-                                                {item.shop_name}
+                                                {order.shop_name}
+                                            </Typography>
+                                        </Grid>
+                                        <Grid item style={{
+                                            flex: 1
+                                        }}>
+                                            <Typography sx={{ mb: 1.5 }} color="text.secondary" >
+                                                Quantity: {order.quantity}
                                             </Typography>
                                         </Grid>
                                     </Grid>
                                     <Grid style={{
                                         flex: 1,
-                                        display: 'flex'
+                                        display: 'flex',
+                                        flexDirection: 'column'
                                     }}>
                                         <Grid item style={{
                                             flex: 1
                                         }}>
                                             <Typography variant='h5'>
-                                                <CurrencyRupeeIcon fontSize='small' /> {item.price}
+                                                <CurrencyRupeeIcon fontSize='small' /> {order.cost}
                                             </Typography>
+                                        </Grid>
+                                        <Grid item style={{
+                                            flex: 0.5
+                                        }}>
+                                            {/* <Chip label={item.veg} ></Chip> */}
+                                            {display_veg(order)}
+
                                         </Grid>
                                     </Grid>
                                     <Grid style={{
@@ -398,27 +400,29 @@ export default function BasicCardUser(props) {
                                         <Grid item style={{
                                             flex: 1
                                         }}>
-                                            {/* <Stack direction="column"> */}
-                                            {display_tags(item)}
-                                            {/* </Stack> */}
-                                        </Grid>
-                                    </Grid>
-                                    <Grid style={{
-                                        flex: 1,
-                                        display: 'flex'
-                                    }}>
-                                        <Grid item style={{
-                                            flex: 1
-                                        }}>
-                                            {/* <Chip label={item.veg} ></Chip> */}
-                                            {display_veg(item)}
+
+                                            {display_tags(order)}
 
                                         </Grid>
                                     </Grid>
                                     {/* <Grid style={{
                                         flex: 1,
+                                        display: 'flex'
+                                    }}>
+                                        <Grid item style={{
+                                            flex: 0.5
+                                        }}>
+                                            
+                                            {display_veg(order)}
+
+                                        </Grid>
+                                    </Grid> */}
+                                    <Grid style={{
+                                        flex: 1,
                                         display: 'flex',
-                                        flexDirection: 'column'
+                                        flexDirection: 'column',
+                                        justifyContent: 'space-evenly',
+                                        padding: 15
                                     }}>
                                         <Grid item style={{
                                             flex: 1
@@ -427,12 +431,17 @@ export default function BasicCardUser(props) {
                                                 Add-ons
                                             </Typography>
                                         </Grid>
-                                        <FormGroup>
-                                            {display_addons(item)}
-                                        </FormGroup>
+                                        <Grid item style={{
+                                            flex: 1
+                                        }}>
+                                            <FormGroup>
+                                                {display_addons(order)}
+                                            </FormGroup>
+                                        </Grid>
 
 
-                                    </Grid> */}
+
+                                    </Grid>
                                     <Grid style={{
                                         flex: 1,
                                         display: 'flex',
@@ -441,13 +450,36 @@ export default function BasicCardUser(props) {
                                         <Grid item style={{
                                             flex: 1
                                         }}>
-                                            <Rating name="read-only" value={item.rating} readOnly />
+                                            <Rating name="read-only" value={order.rating} readOnly />
                                         </Grid>
                                         <Grid item style={{
                                             flex: 1
                                         }}>
-                                            <Button onClick={() => addFav(item)} fontSize={1} size='small'>Add to Favourites</Button>
+                                            <Typography sx={{ mb: 1.5 }} color="text.secondary" >
+                                                {order.placed_time}
+                                            </Typography>
                                         </Grid>
+                                    </Grid>
+
+                                    <Grid style={{
+                                        flex: 1,
+                                        display: 'flex',
+                                        flexDirection: 'column'
+                                    }}>
+                                        <Grid item style={{
+                                            flex: 1
+                                        }}>
+                                            <Typography>
+                                                Status:
+                                            </Typography>
+                                        </Grid>
+                                        <Grid item style={{
+                                            flex: 1
+                                        }}>
+                                            <Chip color='primary' label={order.status} ></Chip>
+                                        </Grid>
+
+
                                         {/* <Grid item style={{
                                             flex: 1
                                         }}>
@@ -474,13 +506,13 @@ export default function BasicCardUser(props) {
                                 <CardActions style={{
                                     flex: 1
                                 }}>
-                                    <Button size="small" onClick={() => handleOrder(item)}>Order</Button>
+                                    <Button size="small" onClick={() => handlePickup(order)}>Picked Up</Button>
                                     {/* <Button size="small">Delete</Button> */}
                                 </CardActions>
 
                             </Card>
 
-                            <Dialog open={open} onClose={handleClose}>
+                            {/* <Dialog open={open} onClose={handleClose}>
                                 <DialogTitle>Order item</DialogTitle>
                                 <DialogContent>
                                     <DialogContentText>
@@ -535,7 +567,7 @@ export default function BasicCardUser(props) {
                                     <Button onClick={handleClose}>Cancel</Button>
                                     <Button onClick={() => handleSubmit(dialog_item)}>Buy</Button>
                                 </DialogActions>
-                            </Dialog>
+                            </Dialog> */}
 
                             <br></br>
                             <br></br>

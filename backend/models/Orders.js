@@ -42,8 +42,8 @@ const OrderSchema = new Schema({
     },
     rating: {
         type: Number,
-        default: 0,
-        min: 0,
+        default: -1,
+        min: -1,
         max: 5,
         required: false
     },

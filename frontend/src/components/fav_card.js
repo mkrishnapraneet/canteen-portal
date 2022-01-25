@@ -24,12 +24,12 @@ import DialogTitle from '@mui/material/DialogTitle';
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import { useEffect } from 'react';
-import RadioButtonCheckedIcon from '@mui/icons-material/RadioButtonChecked';
+import FavoriteIcon from '@mui/icons-material/Favorite';
 
 const backend_base_url = "http://localhost:4000";
 
 
-export default function BasicCardUser(props) {
+export default function FavCard(props) {
     const navigate = useNavigate();
 
     console.log(props.items);
@@ -255,13 +255,9 @@ export default function BasicCardUser(props) {
 
         const addFav = (item) => {
             const favs = item.favourites;
-            const index = favs.indexOf(current_user);
-            if (index <= -1) {
-                favs.push(current_user);
-                console.log(favs)
-                updateFavs(item, favs);
-            }
-
+            favs.push(current_user);
+            console.log(favs)
+            updateFavs(item, favs);
         }
 
         const checkFav = (item, ch) => {
@@ -274,8 +270,11 @@ export default function BasicCardUser(props) {
         }
 
         const display_favourite = (item) => {
-            const favs = item.favourites;
-            const index = favs.indexOf(current_user);
+            // const favs = item.favourites;
+            // const index = favs.indexOf(current_user);
+            return (
+                <Checkbox color='error' disabled defaultChecked icon={<FavoriteBorder />} checkedIcon={<Favorite />} />
+            )
             // var ch = false;
             // if (index > -1) {
             //     ch = true;
@@ -283,17 +282,7 @@ export default function BasicCardUser(props) {
             // return (
             //     <Checkbox color='error' checked={ch} onChange={() => checkFav(item, ch)} icon={<FavoriteBorder />} checkedIcon={<Favorite />} />
             // )
-            if (index > -1) {
-                return (
-                    <Checkbox color='error' onChange={() => removeFav(item)} defaultChecked={true} icon={<FavoriteBorder />} checkedIcon={<Favorite />} />
-                )
 
-            }
-            else {
-                return (
-                    <Checkbox color='error' onChange={() => addFav(item)} defaultChecked={false} icon={<FavoriteBorder />} checkedIcon={<Favorite />} />
-                )
-            }
         }
 
         const checkTime = (item) => {
@@ -353,8 +342,9 @@ export default function BasicCardUser(props) {
                                             justifyContent: 'center',
                                             alignItems: 'center'
                                         }}>
-                                            {/* {display_favourite(item)} */}
-                                            <RadioButtonCheckedIcon></RadioButtonCheckedIcon>
+                                            {/* <Checkbox color='error' disabled defaultChecked={true} icon={<FavoriteBorder />} checkedIcon={<Favorite />} /> */}
+                                            <FavoriteIcon color='error' ></FavoriteIcon>
+
                                         </Grid>
                                     </Grid>
                                     <Grid style={{
@@ -436,7 +426,9 @@ export default function BasicCardUser(props) {
                                     <Grid style={{
                                         flex: 1,
                                         display: 'flex',
-                                        flexDirection: 'column'
+                                        flexDirection: 'column',
+                                        justifyContent: 'center',
+                                        alignItems: 'center'
                                     }}>
                                         <Grid item style={{
                                             flex: 1
@@ -446,7 +438,7 @@ export default function BasicCardUser(props) {
                                         <Grid item style={{
                                             flex: 1
                                         }}>
-                                            <Button onClick={() => addFav(item)} fontSize={1} size='small'>Add to Favourites</Button>
+                                            <Button onClick={() => removeFav(item)} fontSize={1} size='small'>Remove from Favourites</Button>
                                         </Grid>
                                         {/* <Grid item style={{
                                             flex: 1

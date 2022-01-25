@@ -12,7 +12,7 @@ export default function ButtonAppBarVendor() {
     const navigate = useNavigate();
 
     const handleOrders = (event) => {
-
+        navigate("/vendor_orders");
     }
 
     const handleMenu = (event) => {

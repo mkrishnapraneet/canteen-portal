@@ -27,6 +27,9 @@ import VendorEditProfile from './vendor_ep';
 import VendorAddItem from './vendor_additem';
 import VendorMenu from './vendor_menu';
 import UserMenu from './user_menu';
+import UserOrders from './user_orders';
+import VendorOrders from './vendor-orders';
+import Favourites from './favourites';
 
 const Layout = () => {
   return (
@@ -66,6 +69,9 @@ class App extends Component {
             <Route exact path="/vendor_additem" element={<VendorAddItem />} />
             <Route exact path="/vendor_menu" element={<VendorMenu />} />
             <Route exact path="/user_menu" element={<UserMenu />} />
+            <Route exact path="/user_orders" element={<UserOrders />} />
+            <Route exact path="/vendor_orders" element={<VendorOrders />} />
+            <Route exact path="/favourites" element={<Favourites />} />
 
           </Routes>
         </BrowserRouter>

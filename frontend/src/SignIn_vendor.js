@@ -54,7 +54,7 @@ export default function SignInVendor() {
                 alert("Sign In Successful.");
                 sessionStorage.setItem("token", res.data.token);
                 console.log(sessionStorage.getItem("token"));
-                navigate("/vendor_dashboard");
+                navigate("/vendor_orders");
                 // navigate("/signin_user");
                 // callPopUp();
             }

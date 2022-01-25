@@ -89,6 +89,48 @@ router.get("/vendordetails", auth, function (req, res) {
         })
 });
 
+router.post("/vendor_timings", function (req, res) {
+    const sh_name = req.body.shop_name;
+    // console.log(sh_name)
+    const order_time = req.body.order_time*1;
+    // console.log(order_time);
+    Vendor.findOne({ shop_name: sh_name })
+        .then(vendor => {
+            if (!vendor) {
+                return res.status(400).json({ msg: "Vendor doesn't exist" });
+            }
+            else {
+                // res.status(200).json(vendor)
+                // console.log(vendor.shop_name);
+                const op_time = vendor.opening_time*1;
+                const cl_time = vendor.closing_time*1;
+                console.log(op_time,cl_time);
+
+                if (op_time < cl_time) {
+                    if (order_time <= cl_time && order_time >= op_time) {
+                        return res.status(200).json({success: true});
+                    }
+                    else {
+                        return res.status(400).json({msg: "closed"});
+                    }
+                }
+                else {
+                    if (order_time >= op_time && order_time < 2400) {
+                        return res.status(200).json({success: true});
+                    }
+                    else if (order_time < op_time && order_time <= cl_time) {
+                        return res.status(200).json({success: true});
+                    }
+                    else {
+                        return res.status(400).json({msg: "closed"});
+                    }
+                }
+
+            }
+            
+        })
+});
+
 router.post("/update", auth, (req, res) => {
 
     const token = req.header("auth-token");

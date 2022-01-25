@@ -84,7 +84,7 @@ export default function VendorAddItem() {
             }, { headers: { "auth-token": token } })
             .then((res) => {
                 alert("Item has been registered successfully");
-                navigate("/vendor_dashboard");
+                navigate("/vendor_orders");
                 // callPopUp();
             }
             )

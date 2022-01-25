@@ -21,6 +21,37 @@ router.get("/", auth, function (req, res) {
     })
 });
 
+router.get("/favourites", auth, function (req, res) {
+    const token = req.header("auth-token");
+    const decoded = jwt.verify(token, config.get("jwtSecret"));
+    console.log(decoded);
+    email = decoded.email;
+    // User.findOne({ email })
+    Item.find(function (err, items) {
+        if (err) {
+            console.log(err);
+        } else {
+            // res.json(items);
+            const actual_items = [];
+            function myFunction(item, index) {
+                // console.log(item);
+                const favs = item.favourites;
+                // console.log(favs);
+                const count_index = favs.indexOf(email);
+                console.log(count_index);
+                if (count_index > -1) {
+                    // console.log(count_index);
+                    actual_items.push(item);
+                    // console.log(temp);
+                }
+            }
+            items.forEach(myFunction);
+
+            res.json(actual_items);
+        }
+    })
+});
+
 router.get("/shop_items", auth, function (req, res) {
     const token = req.header("auth-token");
     const decoded = jwt.verify(token, config.get("jwtSecret"));
