@@ -37,7 +37,9 @@ export default function BasicCardUserOrder(props) {
 
     const [quantity, setQuantity] = React.useState(1);
     const [order_addons, setOrderAddons] = React.useState([]);
+    const [order_rating, setOrderRating] = React.useState(0);
     const [open, setOpen] = React.useState(false);
+    const [dialog_open, setDialogOpen] = React.useState(false);
     const [dialog_item, setDialogItem] = React.useState({
         addons: ""
     });
@@ -87,39 +89,33 @@ export default function BasicCardUserOrder(props) {
         }
     };
 
-    const handleSubmit = (item) => {
+    const handleSubmit = (order, given_rating) => {
         setOpen(false);
         const token = sessionStorage.getItem("token");
-        var tot_cost = (item.price) * (quantity);
-
-        function myFunc(value, index, array) {
-            tot_cost += (value[1]) * 1;
-        }
-        order_addons.forEach(myFunc);
-
-        var currentdate = new Date();
-        var datetime = "Ordered On: " + currentdate.getDate() + "/"
-            + (currentdate.getMonth() + 1) + "/"
-            + currentdate.getFullYear() + " @ "
-            + currentdate.getHours() + ":"
-            + currentdate.getMinutes() + ":"
-            + currentdate.getSeconds();
         axios
-            .post(`${backend_base_url}/order/register`, {
-                shop_name: item.shop_name,
-                item_name: item.item_name,
-                cost: tot_cost,
-                placed_time: datetime,
-                quantity: quantity,
-                status: "placed",
-                rating: item.rating,
-                veg: item.veg,
-                tags: item.tags,
-                addons: order_addons
+            .post(`${backend_base_url}/order/update_rating`, {
+                shop_name: order.shop_name,
+                item_name: order.item_name,
+                user_email: order.user_email,
+                placed_time: order.placed_time,
+                rating: order_rating,
             }, { headers: { "auth-token": token } })
             .then((res) => {
-                alert("Item has been ordered successfully");
-                window.location.reload();
+
+                axios
+                    .post(`${backend_base_url}/item/update_avg_rating`, {
+                        shop_name: order.shop_name,
+                        item_name: order.item_name,
+                        // user_email: order.user_email,
+                        // placed_time: order.placed_time,
+                        rating: order_rating,
+                    }, { headers: { "auth-token": token } })
+                    .then((res) => {
+                        window.location.reload();
+                        alert("Average rating of item updated");
+                    })
+                // alert("Item has been rated successfully");
+
                 // navigate("/vendor_dashboard");
                 // callPopUp();
             }
@@ -127,7 +123,7 @@ export default function BasicCardUserOrder(props) {
             .catch((err) => {
                 // navigate("/signin_user");
                 // if (err.response.status === 400) {
-                alert("Item order unsuccessful. Please check your wallet balance and also make sure you're signed in");
+                alert("Item rating unsuccessful. Please check your wallet balance and also make sure you're signed in");
                 // }
                 // callPopUp();
             })
@@ -135,13 +131,15 @@ export default function BasicCardUserOrder(props) {
 
 
         // setChecked(false);
-        setOrderAddons([]);
+        setOrderRating(0);
     }
 
     const handleClose = () => {
         setOpen(false);
+        console.log(order_rating);
         // setChecked(false);
-        setOrderAddons([]);
+        // setOrderAddons([]);
+        setOrderRating(0);
     }
 
 
@@ -291,10 +289,40 @@ export default function BasicCardUserOrder(props) {
                 orders.map((order, index) => {
                     // console.log(item);
 
-                    const handleOrder = (order) => {
+                    const handleOpenDialog = (order) => {
                         setDialogItem(order);
                         setOpen(true);
                         // console.log(item);
+                    }
+
+                    const askRating = (order) => {
+                        if (order.status === 'completed' && order.rating === -1) {
+                            handleOpenDialog(order);
+                        }
+                        else if (order.rating !== -1) {
+                            alert("You have alrady rated the item");
+                        }
+                        else {
+                            alert("You can rate once you receive the item");
+                        }
+                    }
+
+                    const displayPickUp = (order) => {
+                        if (order.status === 'ready') {
+                            return (
+                                <Button size="small" onClick={() => handlePickup(order)}>Picked Up</Button>
+
+                            )
+                        }
+                    }
+
+                    const displayRateOrder = (order) => {
+                        if (order.status === 'completed' && order.rating === -1) {
+                            return (
+                                <Button size='small' onClick={() => { askRating(order) }}>Rate Order</Button>
+
+                            )
+                        }
                     }
 
                     const handlePickup = (order) => {
@@ -465,6 +493,9 @@ export default function BasicCardUserOrder(props) {
                                             flex: 1
                                         }}>
                                             <Rating name="read-only" value={order.rating} readOnly />
+                                            {displayRateOrder(order)}
+                                            {/* <Button size='small' onClick={() => { askRating(order) }}>Rate Order</Button> */}
+                                            {/* {askRating(order)} */}
                                         </Grid>
                                         <Grid item style={{
                                             flex: 1
@@ -520,17 +551,18 @@ export default function BasicCardUserOrder(props) {
                                 <CardActions style={{
                                     flex: 1
                                 }}>
-                                    <Button size="small" onClick={() => handlePickup(order)}>Picked Up</Button>
+                                    {displayPickUp(order)}
+                                    {/* <Button size="small" onClick={() => handlePickup(order)}>Picked Up</Button> */}
                                     {/* <Button size="small">Delete</Button> */}
                                 </CardActions>
 
                             </Card>
 
-                            {/* <Dialog open={open} onClose={handleClose}>
-                                <DialogTitle>Order item</DialogTitle>
+                            <Dialog open={open} onClose={handleClose}>
+                                <DialogTitle>Rate the order</DialogTitle>
                                 <DialogContent>
                                     <DialogContentText>
-                                        Select Addons and quantity
+                                        Please Rate the {dialog_item.item_name} You {dialog_item.placed_time} from {dialog_item.shop_name}.
                                     </DialogContentText>
                                     <br></br>
                                     <Grid style={{
@@ -542,46 +574,29 @@ export default function BasicCardUserOrder(props) {
                                             flex: 1
                                         }}>
                                             <Typography variant="h6">
-                                                Add-ons
+                                                Rating
                                             </Typography>
                                         </Grid>
                                         <Grid item style={{
                                             flex: 1
                                         }}>
-                                            <FormGroup>
-                                                {display_addons(dialog_item)}
-                                            </FormGroup>
+                                            <Rating
+                                                name="simple-controlled"
+                                                value={order_rating}
+                                                onChange={(event, newValue) => {
+                                                    setOrderRating(newValue);
+                                                }}
+                                            />
                                         </Grid>
-                                        <Grid item style={{
-                                            flex: 1
-                                        }}>
-                                            <TextField
-                                                autoComplete="Quantity"
-                                                name="quantity"
-                                                type="number"
-                                                required
-                                                // fullWidth
-                                                id="quantity"
-                                                label="Quantity"
-                                                value={quantity}
-                                                onChange={(event) => {
-                                                    event.target.value = event.target.value < 0 ? (0) : event.target.value;
-                                                    setQuantity(event.target.value);
-                                                    // handleQuantity(item, event.target.value)
-                                                }
-                                                }>
 
-                                            </TextField>
-
-                                        </Grid>
 
                                     </Grid>
                                 </DialogContent>
                                 <DialogActions>
                                     <Button onClick={handleClose}>Cancel</Button>
-                                    <Button onClick={() => handleSubmit(dialog_item)}>Buy</Button>
+                                    <Button onClick={() => handleSubmit(dialog_item, order_rating)}>Rate</Button>
                                 </DialogActions>
-                            </Dialog> */}
+                            </Dialog>
 
                             <br></br>
                             <br></br>

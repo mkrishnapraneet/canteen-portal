@@ -212,6 +212,37 @@ router.post("/update_item_forfav", auth, function (req, res) {
 
 });
 
+router.post("/update_avg_rating", auth, function (req, res) {
+
+    const sh_name = req.body.shop_name;
+    console.log(sh_name);
+
+    Item.findOne({ shop_name: sh_name, item_name: req.body.item_name })
+        .then(item => {
+            if (!item) {
+                return res.status(400).json({ msg: "Vendor doesn't exist" });
+            }
+            else {
+                var myquery = { shop_name: sh_name, item_name: req.body.item_name };
+                var newvalues = {
+                    $set: {
+                        num_of_ratings: item.num_of_ratings*1 + 1,
+                        rating: ((item.rating)*(item.num_of_ratings)+req.body.rating)/((item.num_of_ratings)+1)
+                    }
+                }
+
+                Item.updateOne(myquery, newvalues, function (err, res) {
+                    if (err) throw err;
+                })
+                res.status(200).json({ msg: "details updated" });
+                console.log("details updated");
+            }
+        })
+
+
+
+});
+
 // POST request 
 // Add a item to db
 router.post("/register", (req, res) => {

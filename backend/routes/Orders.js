@@ -191,5 +191,38 @@ router.post("/update_order_user", auth, function (req, res) {
 });
 
 
+router.post("/update_rating", auth, function (req, res) {
+    const token = req.header("auth-token");
+    const decoded = jwt.verify(token, config.get("jwtSecret"));
+    console.log(decoded);
+    email = decoded.email;
+    User.findOne({ email })
+        .then(user => {
+            if (!user) {
+                return res.status(400).json({ msg: "User doesn't exist" });
+            }
+            // res.status(200).json(vendor)
+            else {
+                // const sh_name = vendor.shop_name;
+                // console.log(sh_name);
+
+                var myquery = { shop_name: req.body.shop_name, item_name: req.body.item_name, user_email: email, placed_time: req.body.placed_time };
+                var newvalues = {
+                    $set: {
+                        rating: req.body.rating
+                    }
+                }
+
+                Order.updateOne(myquery, newvalues, function (err, res) {
+                    if (err) throw err;
+                })
+                res.status(200).json({ msg: "details updated" });
+                console.log("details updated");
+
+            }
+        })
+
+});
+
 
 module.exports = router;

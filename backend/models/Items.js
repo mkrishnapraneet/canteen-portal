@@ -42,7 +42,12 @@ const ItemSchema = new Schema({
     favourites: {
 		type: [String],
 		required: false
-	}
+	},
+    num_of_ratings: {
+        type: Number,
+        default: 0,
+        required: false
+    }
 
 
 });
