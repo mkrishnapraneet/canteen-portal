@@ -28,7 +28,7 @@ import VendorAddItem from './vendor_additem';
 import VendorMenu from './vendor_menu';
 import UserMenu from './user_menu';
 import UserOrders from './user_orders';
-import VendorOrders from './vendor-orders';
+import VendorOrders from './vendor_orders';
 import Favourites from './favourites';
 
 const Layout = () => {

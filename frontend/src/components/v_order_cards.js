@@ -175,16 +175,26 @@ export default function BasicCardVendorOrder(props) {
             const veg = item.veg;
             // console.log(veg);
             if (veg.length > 0) {
+                var lab = "Veg";
+                var col = "success";
                 if (veg === "veg") {
-                    return (
-                        <Chip label="Veg" color="success"></Chip>
-                    )
+                    lab = "Veg";
+                    col = "success";
+                    // return (
+                    //     <Chip label="Veg" color="success"></Chip>
+                    // )
                 }
                 else {
-                    return (
-                        <Chip label="Non-Veg" color="error"></Chip>
-                    )
+                    lab = "Non-Veg";
+                    col = "error";
+                    // return (
+                    //     <Chip label="Non-Veg" color="error"></Chip>
+                    // )
                 }
+
+                return (
+                    <Chip label={lab} color={col} ></Chip>
+                )
 
             }
             else {
@@ -292,7 +302,7 @@ export default function BasicCardVendorOrder(props) {
                         const token = sessionStorage.getItem("token");
                         axios
                             .post(`${backend_base_url}/user/refund`, {
-                                money_to_refund: (order.cost)*1,
+                                money_to_refund: (order.cost) * 1,
                                 user_email: order.user_email
                             }, { headers: { "auth-token": token } })
                             .then(res => {
