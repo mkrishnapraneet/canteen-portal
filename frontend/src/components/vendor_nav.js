@@ -11,6 +11,10 @@ import { useNavigate } from "react-router-dom";
 export default function ButtonAppBarVendor() {
     const navigate = useNavigate();
 
+    const handleStats = (event) => {
+        navigate("/vendor_stats");
+    }
+
     const handleOrders = (event) => {
         navigate("/vendor_orders");
     }
@@ -37,7 +41,7 @@ export default function ButtonAppBarVendor() {
 
     return (
         <Box sx={{ flexGrow: 1 }}>
-            <AppBar position="static">
+            <AppBar position="fixed">
                 <Toolbar>
                     {/* <IconButton
                         size="large"
@@ -51,6 +55,7 @@ export default function ButtonAppBarVendor() {
                     <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
                         Navigate
                     </Typography>
+                    <Button color="inherit" onClick={handleStats}>Stats</Button>
                     <Button color="inherit" onClick={handleOrders}>Orders</Button>
                     <Button color="inherit" onClick={handleMenu}>Menu</Button>
                     <Button color="inherit" onClick={handleAddItem}>Add Item</Button>
@@ -58,6 +63,8 @@ export default function ButtonAppBarVendor() {
                     <Button color="inherit" onClick={handleLogout}>Logout</Button>
                 </Toolbar>
             </AppBar>
+            <br></br>
+            <br></br>
         </Box>
     );
 }

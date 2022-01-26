@@ -30,6 +30,7 @@ import UserMenu from './user_menu';
 import UserOrders from './user_orders';
 import VendorOrders from './vendor_orders';
 import Favourites from './favourites';
+import VendorStats from './vendor_stats';
 
 const Layout = () => {
   return (
@@ -72,6 +73,7 @@ class App extends Component {
             <Route exact path="/user_orders" element={<UserOrders />} />
             <Route exact path="/vendor_orders" element={<VendorOrders />} />
             <Route exact path="/favourites" element={<Favourites />} />
+            <Route exact path="/vendor_stats" element={<VendorStats />} />
 
           </Routes>
         </BrowserRouter>

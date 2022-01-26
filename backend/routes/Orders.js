@@ -40,7 +40,7 @@ router.post("/register", auth, (req, res) => {
                             placed_time: req.body.placed_time,
                             quantity: req.body.quantity,
                             status: req.body.status,
-                            rating: -1*1,
+                            rating: -1 * 1,
                             veg: req.body.veg,
                             tags: req.body.tags,
                             addons: req.body.addons
@@ -120,7 +120,138 @@ router.get("/vendor_orders", auth, function (req, res) {
                     });
 
             }
-        })
+        });
+
+});
+
+router.get("/vendor_orders_sorted", auth, function (req, res) {
+    const token = req.header("auth-token");
+    const decoded = jwt.verify(token, config.get("jwtSecret"));
+    console.log(decoded);
+    email = decoded.email;
+    Vendor.findOne({ email })
+        .then(vendor => {
+            if (!vendor) {
+                return res.status(400).json({ msg: "Vendor doesn't exist" });
+            }
+            // res.status(200).json(vendor)
+            else {
+                const sh_name = vendor.shop_name;
+                console.log(sh_name);
+
+                Order.aggregate([
+                    {$match: {shop_name: sh_name, status: 'completed'} },
+                    {$group: {_id: "$item_name", count: {$sum: 1} } },
+                    {$sort: {count: -1} },
+                    {$limit: 5}
+                ])
+                .then (
+                    answer => {
+                        
+                        res.status(200).json(answer);
+                    }
+                )
+                .catch (
+                    err => {
+                        res.status(400).json({msg: "failed"});
+                    }
+                )
+
+            }
+        });
+
+});
+
+// router.get("/vendor_orders_placed", auth, function (req, res) {
+//     const token = req.header("auth-token");
+//     const decoded = jwt.verify(token, config.get("jwtSecret"));
+//     console.log(decoded);
+//     email = decoded.email;
+//     Vendor.findOne({ email })
+//         .then(vendor => {
+//             if (!vendor) {
+//                 return res.status(400).json({ msg: "Vendor doesn't exist" });
+//             }
+//             // res.status(200).json(vendor)
+//             else {
+//                 const sh_name = vendor.shop_name;
+//                 console.log(sh_name);
+//                 Order.find({ shop_name: sh_name, status: 'placed' })
+//                     .then(orders => {
+//                         // console.log(sh_name);
+
+//                         res.json(orders);
+
+//                     })
+//                     .catch(err => {
+//                         console.log(err);
+//                         res.status(400).send(err);
+//                     });
+
+//             }
+//         });
+
+// });
+
+router.get("/vendor_orders_pending", auth, function (req, res) {
+    const token = req.header("auth-token");
+    const decoded = jwt.verify(token, config.get("jwtSecret"));
+    console.log(decoded);
+    email = decoded.email;
+    Vendor.findOne({ email })
+        .then(vendor => {
+            if (!vendor) {
+                return res.status(400).json({ msg: "Vendor doesn't exist" });
+            }
+            // res.status(200).json(vendor)
+            else {
+                const sh_name = vendor.shop_name;
+                console.log(sh_name);
+                Order.find({ shop_name: sh_name, $or: [{ status: 'placed' }, { status: 'accepted' }, { status: 'cooking' }, { status: 'ready' }] })
+                    .then(orders => {
+                        // console.log(sh_name);
+
+                        res.json(orders);
+
+                    })
+                    .catch(err => {
+                        console.log(err);
+                        res.status(400).send(err);
+                    });
+
+            }
+        });
+
+});
+
+router.get("/vendor_orders_completed", auth, function (req, res) {
+    const token = req.header("auth-token");
+    const decoded = jwt.verify(token, config.get("jwtSecret"));
+    console.log(decoded);
+    email = decoded.email;
+    Vendor.findOne({ email })
+        .then(vendor => {
+            if (!vendor) {
+                return res.status(400).json({ msg: "Vendor doesn't exist" });
+            }
+            // res.status(200).json(vendor)
+            else {
+                const sh_name = vendor.shop_name;
+                console.log(sh_name);
+                Order.find({ shop_name: sh_name, status: 'completed' })
+                    .then(orders => {
+                        // console.log(sh_name);
+
+                        res.json(orders);
+
+                    })
+                    .catch(err => {
+                        console.log(err);
+                        res.status(400).send(err);
+                    });
+
+            }
+        });
 
 });
 

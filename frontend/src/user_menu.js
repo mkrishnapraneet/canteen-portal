@@ -24,6 +24,7 @@ import ButtonAppBar from './components/user_nav';
 // import ButtonAppBarVendor from './components/vendor_nav';
 import ChipInput from 'material-ui-chip-input'
 import BasicCardUser from './components/u_menu_card';
+import ButtonAppBarUserMenu from './components/u_nav_menu';
 
 
 const theme = createTheme();
@@ -74,7 +75,7 @@ export default function UserMenu() {
 
             <Container maxWidth="xl">
 
-                <ButtonAppBar />
+                <ButtonAppBarUserMenu />
 
                 <br></br>
                 <br></br>

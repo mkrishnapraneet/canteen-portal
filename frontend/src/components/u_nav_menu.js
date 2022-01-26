@@ -19,7 +19,7 @@ import { useNavigate } from "react-router-dom";
 const theme = createTheme();
 const backend_base_url = "http://localhost:4000";
 
-export default function ButtonAppBar() {
+export default function ButtonAppBarUserMenu() {
     const navigate = useNavigate();
 
     const [wallet_balance, setWalletBalance] = React.useState(0);
