@@ -24,7 +24,7 @@ export default function TagsInput({ ...props }) {
   }, [selectedItem, selectedTags]);
 
   function handleKeyDown(event) {
-    if (event.key === " ") {
+    if (event.key === "Enter") {
       const newSelectedItem = [...selectedItem];
       const duplicatedValues = newSelectedItem.indexOf(
         event.target.value.trim()

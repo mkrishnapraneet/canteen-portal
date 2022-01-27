@@ -427,7 +427,7 @@ export default function BasicCard(props) {
                         variant="outlined"
                         id="tags"
                         name="tags"
-                        placeholder="Press Space to create tag"
+                        placeholder="Type and Press Enter to create tag"
                         label="tags"
                       // onSubmit={e => { e.preventDefault(); }}
                       />

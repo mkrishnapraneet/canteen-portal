@@ -154,7 +154,7 @@ export default function UserEditProfile() {
                             Edit Profile
                         </Typography>
                         {/* <MessagePopup /> */}
-                        <Box component="form" sx={{ mt: 3 }}>
+                        <Box  sx={{ mt: 3 }}>
                             <Grid container spacing={2}>
                                 <Grid item xs={12} sm={6}>
                                     <TextField

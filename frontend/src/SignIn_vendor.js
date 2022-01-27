@@ -101,7 +101,7 @@ export default function SignInVendor() {
                         <Typography component="h1" variant="h5">
                             Sign in
                         </Typography>
-                        <Box component="form" sx={{ mt: 1 }}>
+                        <Box  sx={{ mt: 1 }}>
                             <Grid container spacing={2}>
                                 <Grid item xs={12}>
                                     <TextField

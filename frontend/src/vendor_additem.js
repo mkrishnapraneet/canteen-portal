@@ -163,7 +163,7 @@ export default function VendorAddItem() {
                             Add Item
                         </Typography>
                         {/* <MessagePopup /> */}
-                        <Box component="form" sx={{ mt: 3 }}>
+                        <Box  sx={{ mt: 3 }}>
                             <Grid container spacing={2}>
                                 {/* <Grid item xs={12} >
                                     <TextField
@@ -243,7 +243,7 @@ export default function VendorAddItem() {
                                         variant="outlined"
                                         id="tags"
                                         name="tags"
-                                        placeholder="Press Space to create tag"
+                                        placeholder="Type and Press Enter to create tag"
                                         label="tags"
                                     // onSubmit={e => { e.preventDefault(); }}
                                     />
