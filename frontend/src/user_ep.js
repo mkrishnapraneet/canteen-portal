@@ -110,7 +110,7 @@ export default function UserEditProfile() {
             .catch((err) => {
                 navigate("/signin_user");
                 if (err.response.status === 400) {
-                    alert("Edit Unsuccessful. Please check the values provided.");
+                    alert("Edit Unsuccessful. Please check the values provided. Make sure you have entered the password (new one if you want to update it)");
                 }
                 // callPopUp();
             }

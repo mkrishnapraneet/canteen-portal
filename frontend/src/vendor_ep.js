@@ -120,7 +120,7 @@ export default function VendorEditProfile() {
             .catch((err) => {
                 navigate("/signin_vendor");
                 if (err.response.status === 400) {
-                    alert("Edit Unsuccessful. Please check the values provided.");
+                    alert("Edit Unsuccessful. Please check the values provided. Make sure you have filled the password field with the new (old if change unnecessary) password.");
                 }
                 // callPopUp();
             }

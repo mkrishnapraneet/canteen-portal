@@ -260,7 +260,9 @@ router.post("/update_item", auth, function (req, res) {
                 }
 
                 Item.updateOne(myquery, newvalues, function (err, res) {
-                    if (err) throw err;
+                    if (err) {
+                        return res.status(400).json({ msg: "failed" });
+                    }
                 })
                 res.status(200).json({ msg: "details updated" });
                 console.log("details updated");
@@ -283,7 +285,9 @@ router.post("/update_item_forfav", auth, function (req, res) {
     }
 
     Item.updateOne(myquery, newvalues, function (err, res) {
-        if (err) throw err;
+        if (err) {
+            return res.status(400).json({ msg: "failed" });
+        }
     })
     res.status(200).json({ msg: "details updated" });
     console.log("details updated");
@@ -312,7 +316,9 @@ router.post("/update_avg_rating", auth, function (req, res) {
                 }
 
                 Item.updateOne(myquery, newvalues, function (err, res) {
-                    if (err) throw err;
+                    if (err) {
+                        return res.status(400).json({ msg: "failed" });
+                    }
                 })
                 res.status(200).json({ msg: "details updated" });
                 console.log("details updated");

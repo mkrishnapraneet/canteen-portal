@@ -47,11 +47,20 @@ router.post("/addmoney", auth, (req, res) => {
             }
             var myquery = { email: email };
             var newvalues = { $set: { wallet_balance: user.wallet_balance * 1 + req.body.money_to_add } };
-            User.updateOne(myquery, newvalues, function (err, res) {
-                if (err) throw err;
-            })
-            res.status(200).json({ msg: "wallet balance updated" });
-            console.log("wallet balance updated");
+            // User.updateOne(myquery, newvalues, function (err, res) {
+            //     if (err) throw err;
+            // })
+            // res.status(200).json({ msg: "wallet balance updated" });
+            // console.log("wallet balance updated");
+
+            User.updateOne(myquery, newvalues)
+                .then(response => {
+                    res.status(200).json({ msg: "wallet balance updated" });
+                    console.log("wallet balance updated");
+                })
+                .catch(err => {
+                    res.status(400).json({ msg: err });
+                })
         })
 
 });
@@ -70,11 +79,19 @@ router.post("/refund", auth, (req, res) => {
             }
             var myquery = { email: user_email };
             var newvalues = { $set: { wallet_balance: user.wallet_balance * 1 + req.body.money_to_refund } };
-            User.updateOne(myquery, newvalues, function (err, res) {
-                if (err) throw err;
-            })
-            res.status(200).json({ msg: "wallet balance updated" });
-            console.log("wallet balance updated");
+            // User.updateOne(myquery, newvalues, function (err, res) {
+            //     if (err) throw err;
+            // })
+            // res.status(200).json({ msg: "wallet balance updated" });
+            // console.log("wallet balance updated");
+            User.updateOne(myquery, newvalues)
+                .then(response => {
+                    res.status(200).json({ msg: "wallet balance updated" });
+                    console.log("wallet balance updated");
+                })
+                .catch(err => {
+                    res.status(400).json({ msg: err });
+                })
         })
 
 })
@@ -104,7 +121,9 @@ router.post("/register", (req, res) => {
             //create and salt hash
             bcrypt.genSalt(10, (err, salt) => {
                 bcrypt.hash(newUser.password, salt, (err, hash) => {
-                    if (err) throw err;
+                    if (err) {
+                        return res.status(400).json({ msg: "failed" });
+                    }
                     newUser.password = hash;
                     newUser.save()
                         .then(user => {
@@ -114,7 +133,9 @@ router.post("/register", (req, res) => {
                                 config.get("jwtSecret"),
                                 { expiresIn: 3600 },
                                 (err, token) => {
-                                    if (err) throw err;
+                                    if (err) {
+                                        return res.status(400).json({ msg: "failed" });
+                                    }
                                     res.status(200).json({
                                         token,
                                         user: {
@@ -159,7 +180,9 @@ router.post("/update", auth, (req, res) => {
             var new_pass = req.body.password;
             bcrypt.genSalt(10, (err, salt) => {
                 bcrypt.hash(new_pass, salt, (err, hash) => {
-                    if (err) throw err;
+                    if (err) {
+                        return res.status(400).json({ msg: "failed" });
+                    }
                     console.log(new_pass);
                     new_pass = hash;
                     console.log("changed? : " + new_pass)
@@ -176,11 +199,19 @@ router.post("/update", auth, (req, res) => {
                             batch: req.body.batch
                         }
                     };
-                    User.updateOne(myquery, newvalues, function (err, res) {
-                        if (err) throw err;
-                    })
-                    res.status(200).json({ msg: "details updated" });
-                    console.log("details updated");
+                    // User.updateOne(myquery, newvalues, function (err, res) {
+                    //     if (err) throw err;
+                    // })
+                    // res.status(200).json({ msg: "details updated" });
+                    // console.log("details updated");
+                    User.updateOne(myquery, newvalues)
+                        .then(response => {
+                            res.status(200).json({ msg: "details updated" });
+                            console.log("details updated");
+                        })
+                        .catch(err => {
+                            res.status(400).json({ msg: err });
+                        })
                 })
 
             })

@@ -29,7 +29,9 @@ router.post("/register", auth, (req, res) => {
                     wallet_balance: final_balance
                 }
                 User.updateOne(myquery, newvalues, function (err, response) {
-                    if (err) throw err;
+                    if (err) {
+                        res.status(400).json({ msg: "failed" });
+                    }
                     else {
                         const newOrder = new Order({
 
@@ -75,7 +77,7 @@ router.get("/user_orders", auth, function (req, res) {
             // res.status(200).json(vendor)
             else {
                 // const sh_name = vendor.shop_name;
-                var mySort = {placed_time: -1}
+                var mySort = { placed_time: -1 }
                 console.log(user_email);
                 Order.find({ user_email: user_email })
                     .then(orders => {
@@ -106,7 +108,7 @@ router.get("/vendor_orders", auth, function (req, res) {
             }
             // res.status(200).json(vendor)
             else {
-                var mySort = {placed_time: -1}
+                var mySort = { placed_time: -1 }
                 const sh_name = vendor.shop_name;
                 console.log(sh_name);
                 Order.find({ shop_name: sh_name })
@@ -142,22 +144,22 @@ router.get("/vendor_orders_sorted", auth, function (req, res) {
                 console.log(sh_name);
 
                 Order.aggregate([
-                    {$match: {shop_name: sh_name, status: 'completed'} },
-                    {$group: {_id: "$item_name", count: {$sum: 1} } },
-                    {$sort: {count: -1} },
-                    {$limit: 5}
+                    { $match: { shop_name: sh_name, status: 'completed' } },
+                    { $group: { _id: "$item_name", count: { $sum: 1 } } },
+                    { $sort: { count: -1 } },
+                    { $limit: 5 }
                 ])
-                .then (
-                    answer => {
-                        
-                        res.status(200).json(answer);
-                    }
-                )
-                .catch (
-                    err => {
-                        res.status(400).json({msg: "failed"});
-                    }
-                )
+                    .then(
+                        answer => {
+
+                            res.status(200).json(answer);
+                        }
+                    )
+                    .catch(
+                        err => {
+                            res.status(400).json({ msg: "failed" });
+                        }
+                    )
 
             }
         });
@@ -280,7 +282,9 @@ router.post("/update_order_vendor", auth, function (req, res) {
                 }
 
                 Order.updateOne(myquery, newvalues, function (err, res) {
-                    if (err) throw err;
+                    if (err) {
+                        return res.status(400).json({ msg: "failed" });
+                    }
                 })
                 res.status(200).json({ msg: "details updated" });
                 console.log("details updated");
@@ -313,7 +317,9 @@ router.post("/update_order_user", auth, function (req, res) {
                 }
 
                 Order.updateOne(myquery, newvalues, function (err, res) {
-                    if (err) throw err;
+                    if (err) {
+                        return res.status(400).json({ msg: "failed" })
+                    }
                 })
                 res.status(200).json({ msg: "details updated" });
                 console.log("details updated");
@@ -347,7 +353,9 @@ router.post("/update_rating", auth, function (req, res) {
                 }
 
                 Order.updateOne(myquery, newvalues, function (err, res) {
-                    if (err) throw err;
+                    if (err) {
+                        return res.status(400).json({ msg: "failed" });
+                    }
                 })
                 res.status(200).json({ msg: "details updated" });
                 console.log("details updated");
