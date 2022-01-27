@@ -1,5 +1,5 @@
 import * as React from 'react';
-import Box from '@mui/material/Box';
+// import Box from '@mui/material/Box';
 import Card from '@mui/material/Card';
 import CardActions from '@mui/material/CardActions';
 import CardContent from '@mui/material/CardContent';
@@ -9,7 +9,7 @@ import Grid from '@mui/material/Grid';
 import Rating from '@mui/material/Rating';
 import CurrencyRupeeIcon from '@mui/icons-material/CurrencyRupee';
 import Chip from '@mui/material/Chip';
-import Stack from '@mui/material/Stack';
+// import Stack from '@mui/material/Stack';
 import FormGroup from '@mui/material/FormGroup';
 import Checkbox from '@mui/material/Checkbox';
 import FormControlLabel from '@mui/material/FormControlLabel';
@@ -25,7 +25,7 @@ import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import { useEffect } from 'react';
 import RadioButtonCheckedIcon from '@mui/icons-material/RadioButtonChecked';
-import { typography } from '@mui/system';
+// import { typography } from '@mui/system';
 
 const backend_base_url = "http://localhost:4000";
 

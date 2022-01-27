@@ -55,7 +55,7 @@ router.post("/filters", auth, function (req, res) {
     if (sort_by === "price") {
         Item.aggregate([
             // { $match: { veg: {$in : req.body.veg}} },
-            { $match: { $and: [{ veg: { $in: veg } }, { shop_name: { $in: shops } }, { price: { $gte: lprice * 1, $lte: hprice * 1 } } , {tags: {$in: tags}}  ] } },
+            { $match: { $and: [{ veg: { $in: veg } }, { shop_name: { $in: shops } }, { price: { $gte: lprice * 1, $lte: hprice * 1 } }, { tags: { $in: tags } }] } },
             { $sort: { price: req.body.which_sort } }
 
 
@@ -76,7 +76,7 @@ router.post("/filters", auth, function (req, res) {
     else {
         Item.aggregate([
             // { $match: { veg: {$in : req.body.veg}} },
-            { $match: { $and: [{ veg: { $in: veg } }, { shop_name: { $in: shops } }, { price: { $gte: lprice * 1, $lte: hprice * 1 } } , {tags: {$in: tags}} ] } },
+            { $match: { $and: [{ veg: { $in: veg } }, { shop_name: { $in: shops } }, { price: { $gte: lprice * 1, $lte: hprice * 1 } }, { tags: { $in: tags } }] } },
             { $sort: { rating: req.body.which_sort } }
 
 

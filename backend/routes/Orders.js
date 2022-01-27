@@ -75,6 +75,7 @@ router.get("/user_orders", auth, function (req, res) {
             // res.status(200).json(vendor)
             else {
                 // const sh_name = vendor.shop_name;
+                var mySort = {placed_time: -1}
                 console.log(user_email);
                 Order.find({ user_email: user_email })
                     .then(orders => {
@@ -105,6 +106,7 @@ router.get("/vendor_orders", auth, function (req, res) {
             }
             // res.status(200).json(vendor)
             else {
+                var mySort = {placed_time: -1}
                 const sh_name = vendor.shop_name;
                 console.log(sh_name);
                 Order.find({ shop_name: sh_name })

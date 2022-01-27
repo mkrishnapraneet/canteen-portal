@@ -1,27 +1,27 @@
 import * as React from 'react';
-import BasicCard from './components/card';
-import ResponsiveAppBar from './components/Navbar';
-import Avatar from '@mui/material/Avatar';
+// import BasicCard from './components/card';
+// import ResponsiveAppBar from './components/Navbar';
+// import Avatar from '@mui/material/Avatar';
 import Button from '@mui/material/Button';
-import CssBaseline from '@mui/material/CssBaseline';
+// import CssBaseline from '@mui/material/CssBaseline';
 import TextField from '@mui/material/TextField';
 // import FormControlLabel from '../node_modules/@mui/material/FormControlLabel';
 // import Checkbox from '../node_modules/@mui/material/Checkbox';
-import Link from '@mui/material/Link';
-import Grid from '@mui/material/Grid';
-import Box from '@mui/material/Box';
-import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
+// import Link from '@mui/material/Link';
+// import Grid from '@mui/material/Grid';
+// import Box from '@mui/material/Box';
+// import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 // import ResponsiveAppBar from './components/Navbar';
-import BasicMenu from './components/Menu';
-import validator from 'validator';
+// import BasicMenu from './components/Menu';
+// import validator from 'validator';
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import { useEffect } from 'react';
 // import ButtonAppBarVendor from './components/vendor_nav';
-import ChipInput from 'material-ui-chip-input'
+// import ChipInput from 'material-ui-chip-input'
 import BasicCardUser from './components/u_menu_card';
 // import ButtonAppBarUserMenu from './components/u_nav_menu';
 import ButtonAppBar from './components/user_nav';
@@ -31,7 +31,7 @@ import DialogContent from '@mui/material/DialogContent';
 import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
 import { Checkbox, FormControl, FormControlLabel, Input, InputLabel, MenuItem, Select } from '@mui/material';
-import { minWidth, typography } from '@mui/system';
+// import { minWidth, typography } from '@mui/system';
 
 
 
