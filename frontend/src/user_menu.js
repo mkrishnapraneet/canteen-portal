@@ -54,7 +54,9 @@ export default function UserMenu() {
     const [search_text, setSearchText] = React.useState('');
     const [lprice, setLPrice] = React.useState(0);
     const [hprice, setHPrice] = React.useState(5000);
+    const [sort_by , setSortBy] = React.useState("price");
     const [sort_order, setSortOrder] = React.useState(1);
+    // const [sort_order_rating, setSortOrderRating] = React.useState(-1);
 
     const getTags = () => {
         const token = sessionStorage.getItem("token");
@@ -158,7 +160,8 @@ export default function UserMenu() {
                 tags: wanted_tags,
                 lprice: lprice,
                 hprice: hprice,
-                which_sort: sort_order
+                which_sort: sort_order,
+                sort_by: sort_by
             }, { headers: { "auth-token": token } })
             .then((res) => {
                 // alert("Item has been updated successfully");
@@ -448,12 +451,31 @@ export default function UserMenu() {
                     <br /><br /><br />
 
                     <FormControl sx={{ minWidth: 120 }} fullWidth>
-                        <InputLabel id="sort">Sort</InputLabel>
+                        <InputLabel id="sort">Sort by </InputLabel>
+                        <Select
+                            labelId="sort"
+                            id="sort"
+                            value={sort_by}
+                            label="Sort by"
+                            // required
+                            // fullWidth
+                            onChange={(event) => {
+                                setSortBy(event.target.value);
+                            }}
+                        >
+                            <MenuItem value="price">Price</MenuItem>
+                            <MenuItem value="rating">Rating</MenuItem>
+                        </Select>
+                    </FormControl>
+                    <br></br><br></br><br></br>
+
+                    <FormControl sx={{ minWidth: 120 }} fullWidth>
+                        <InputLabel id="sort">Sort </InputLabel>
                         <Select
                             labelId="sort"
                             id="sort"
                             value={sort_order}
-                            label="Sort"
+                            label="Sort "
                             // required
                             // fullWidth
                             onChange={(event) => {
@@ -465,6 +487,24 @@ export default function UserMenu() {
                         </Select>
                     </FormControl>
                     <br></br><br></br><br></br>
+                    {/* <FormControl sx={{ minWidth: 120 }} fullWidth>
+                        <InputLabel id="sort">Sort by Rating</InputLabel>
+                        <Select
+                            labelId="sort"
+                            id="sort"
+                            value={sort_order_rating}
+                            label="Sort by Rating"
+                            // required
+                            // fullWidth
+                            onChange={(event) => {
+                                setSortOrderRating(event.target.value);
+                            }}
+                        >
+                            <MenuItem value={1}>Ascending</MenuItem>
+                            <MenuItem value={-1}>Descending</MenuItem>
+                        </Select>
+                    </FormControl>
+                    <br></br><br></br><br></br> */}
 
                     <Container style={{
                         display: 'flex',

@@ -25,6 +25,7 @@ import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import { useEffect } from 'react';
 import RadioButtonCheckedIcon from '@mui/icons-material/RadioButtonChecked';
+import { typography } from '@mui/system';
 
 const backend_base_url = "http://localhost:4000";
 
@@ -329,6 +330,35 @@ export default function BasicCardUser(props) {
                 })
         }
 
+        // const displayShopStatus = (item) => {
+        //     var currentdate = new Date();
+
+        //     var hours = currentdate.getHours();
+        //     var minutes = currentdate.getMinutes();
+
+        //     var time = (hours * 100) + (minutes * 1);
+
+        //     axios
+        //         .post(`${backend_base_url}/vendor/vendor_timings`, {
+        //             shop_name: item.shop_name,
+        //             order_time: time
+        //         })
+        //         .then((res) => {
+        //             // setDialogItem(item);
+        //             // setOpen(true);
+        //             return (
+        //                 <Typography>Shop is Open</Typography>
+        //             )
+        //         })
+        //         .catch((err) => {
+        //             // alert("Shop is closed right now. Please try ordering later");
+        //             return (
+        //                 <Typography>Shop is Closed</Typography>
+        //             )
+
+        //         })
+        // }
+
 
         if (items.length > 0) {
             return (
@@ -485,6 +515,8 @@ export default function BasicCardUser(props) {
                                     flex: 1
                                 }}>
                                     <Button size="small" onClick={() => handleOrder(item)}>Order</Button>
+                                    <br></br>
+                                    {/* {displayShopStatus(item)} */}
                                     {/* <Button size="small">Delete</Button> */}
                                 </CardActions>
 

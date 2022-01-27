@@ -27,7 +27,7 @@ router.post("/search", auth, function (req, res) {
 
     Item.aggregate([
         // { $match: { item_name: req.body.search_text } }
-        { $match: { item_name: {'$regex' : req.body.search_text, '$options' : 'i'} } }
+        { $match: { item_name: { '$regex': req.body.search_text, '$options': 'i' } } }
     ])
         .then(
             answer => {
@@ -43,36 +43,62 @@ router.post("/search", auth, function (req, res) {
 });
 
 router.post("/filters", auth, function (req, res) {
-    
+
     const veg = req.body.veg;
     const shops = req.body.shops;
     const tags = req.body.tags;
     const lprice = req.body.lprice;
     const hprice = req.body.hprice;
     const sort_order = req.body.which_sort;
+    const sort_by = req.body.sort_by;
+
+    if (sort_by === "price") {
+        Item.aggregate([
+            // { $match: { veg: {$in : req.body.veg}} },
+            { $match: { $and: [{ veg: { $in: veg } }, { shop_name: { $in: shops } }, { price: { $gte: lprice * 1, $lte: hprice * 1 } } , {tags: {$in: tags}}  ] } },
+            { $sort: { price: req.body.which_sort } }
 
 
-    console.log(req.body);
+        ])
+            .then(
+                answer => {
+
+                    res.status(200).json(answer);
+                }
+            )
+            .catch(
+                err => {
+                    res.status(400).json({ msg: { err } });
+                }
+            )
+    }
+
+    else {
+        Item.aggregate([
+            // { $match: { veg: {$in : req.body.veg}} },
+            { $match: { $and: [{ veg: { $in: veg } }, { shop_name: { $in: shops } }, { price: { $gte: lprice * 1, $lte: hprice * 1 } } , {tags: {$in: tags}} ] } },
+            { $sort: { rating: req.body.which_sort } }
 
 
-    Item.aggregate([
-        // { $match: { veg: {$in : req.body.veg}} },
-        { $match:  {$and: [ { veg: {$in: veg} } , {shop_name: {$in: shops} } , {price: { $gte: lprice*1, $lte: hprice*1 } }   ] } },
-        {$sort: {price: req.body.which_sort } }
+        ])
+            .then(
+                answer => {
 
-        
-    ])
-        .then(
-            answer => {
+                    res.status(200).json(answer);
+                }
+            )
+            .catch(
+                err => {
+                    res.status(400).json({ msg: { err } });
+                }
+            )
+    }
 
-                res.status(200).json(answer);
-            }
-        )
-        .catch(
-            err => {
-                res.status(400).json({ msg: {err} });
-            }
-        )
+
+    // console.log(req.body);
+
+
+
 });
 
 router.get("/favourites", auth, function (req, res) {
