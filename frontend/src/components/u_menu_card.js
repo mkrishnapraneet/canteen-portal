@@ -32,9 +32,9 @@ const backend_base_url = "http://localhost:4000";
 export default function BasicCardUser(props) {
     const navigate = useNavigate();
 
-    console.log(props.items);
+    // console.log(props.items);
 
-    const [reload_req, toggleReload] = React.useState(false);
+    // const [reload_req, toggleReload] = React.useState(false);
 
     const [quantity, setQuantity] = React.useState(1);
     const [order_addons, setOrderAddons] = React.useState([]);
@@ -451,7 +451,7 @@ export default function BasicCardUser(props) {
                                         <Grid item style={{
                                             flex: 1
                                         }}>
-                                            <Rating name="read-only" value={item.rating} readOnly />
+                                            <Rating name="read-only" value={item.rating} precision={0.1} readOnly />
                                         </Grid>
                                         <Grid item style={{
                                             flex: 1
@@ -559,7 +559,7 @@ export default function BasicCardUser(props) {
         }
 
         else {
-            return (<h3>No items yet</h3>)
+            return (<h3>No items</h3>)
         }
     }
 

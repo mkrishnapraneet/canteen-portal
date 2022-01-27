@@ -21,6 +21,60 @@ router.get("/", auth, function (req, res) {
     })
 });
 
+router.post("/search", auth, function (req, res) {
+    // const sh_name = vendor.shop_name;
+    // console.log(sh_name);
+
+    Item.aggregate([
+        // { $match: { item_name: req.body.search_text } }
+        { $match: { item_name: {'$regex' : req.body.search_text, '$options' : 'i'} } }
+    ])
+        .then(
+            answer => {
+
+                res.status(200).json(answer);
+            }
+        )
+        .catch(
+            err => {
+                res.status(400).json({ msg: "failed" });
+            }
+        )
+});
+
+router.post("/filters", auth, function (req, res) {
+    
+    const veg = req.body.veg;
+    const shops = req.body.shops;
+    const tags = req.body.tags;
+    const lprice = req.body.lprice;
+    const hprice = req.body.hprice;
+    const sort_order = req.body.which_sort;
+
+
+    console.log(req.body);
+
+
+    Item.aggregate([
+        // { $match: { veg: {$in : req.body.veg}} },
+        { $match:  {$and: [ { veg: {$in: veg} } , {shop_name: {$in: shops} } , {price: { $gte: lprice*1, $lte: hprice*1 } }   ] } },
+        {$sort: {price: req.body.which_sort } }
+
+        
+    ])
+        .then(
+            answer => {
+
+                res.status(200).json(answer);
+            }
+        )
+        .catch(
+            err => {
+                res.status(400).json({ msg: {err} });
+            }
+        )
+});
+
 router.get("/favourites", auth, function (req, res) {
     const token = req.header("auth-token");
     const decoded = jwt.verify(token, config.get("jwtSecret"));
@@ -226,8 +280,8 @@ router.post("/update_avg_rating", auth, function (req, res) {
                 var myquery = { shop_name: sh_name, item_name: req.body.item_name };
                 var newvalues = {
                     $set: {
-                        num_of_ratings: item.num_of_ratings*1 + 1,
-                        rating: ((item.rating)*(item.num_of_ratings)+req.body.rating)/((item.num_of_ratings)+1)
+                        num_of_ratings: item.num_of_ratings * 1 + 1,
+                        rating: ((item.rating) * (item.num_of_ratings) + req.body.rating) / ((item.num_of_ratings) + 1)
                     }
                 }
 

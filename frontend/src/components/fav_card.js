@@ -443,7 +443,7 @@ export default function FavCard(props) {
                                         <Grid item style={{
                                             flex: 1
                                         }}>
-                                            <Rating name="read-only" value={item.rating} readOnly />
+                                            <Rating name="read-only" value={item.rating} precision={0.1} readOnly />
                                         </Grid>
                                         <Grid item style={{
                                             flex: 1

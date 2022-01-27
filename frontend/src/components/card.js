@@ -342,7 +342,7 @@ export default function BasicCard(props) {
                     <Grid item style={{
                       flex: 1
                     }}>
-                      <Rating name="read-only" value={item.rating} readOnly />
+                      <Rating name="read-only" value={item.rating} precision={0.1} readOnly />
                     </Grid>
                   </Grid>
 
@@ -458,7 +458,7 @@ export default function BasicCard(props) {
     }
 
     else {
-      return (<Typography>No items yet</Typography>)
+      return (<Typography>No items</Typography>)
     }
   }
 
